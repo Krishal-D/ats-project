@@ -1,14 +1,35 @@
-import './index.css'
+import { Login } from "./pages/login"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { Register } from "./pages/register"
 
-function App() {
+
+export default function App() {
+
+  
   return (
-    <div className="app-root">
-      <header>
-        <h1>ATS — Frontend (Vite)</h1>
-        <p>Replace this with your Login and Register pages under <code>src/pages/Auth</code>.</p>
-      </header>
-    </div>
+
+    <>
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={
+            <Login />
+          } />
+
+          <Route path="/" element={
+            <Navigate to="/login" />
+          } />
+
+          <Route path="/register" element={
+            <Register />
+          } />
+        </Routes>
+
+
+
+      </BrowserRouter>
+    </>
+
+
   )
 }
-
-export default App
