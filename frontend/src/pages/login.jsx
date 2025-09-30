@@ -1,14 +1,52 @@
 import '../styles/login.css'
 import { HiArrowLongLeft } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 
 
 export function Login() {
-        const navigate = useNavigate()
+    const navigate = useNavigate()
 
-    function handleNavigate(){
-        navigate("/Register")
+    function handleNavigate() {
+        navigate("/register")
+    }
+
+
+    const [form, setForm] = React.useState({
+        email: "",
+        password: ""
+    })
+
+
+
+    const handleChange = (e) => {
+        setForm(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }
+        ))
+    }
+
+    const handleSubmit = async (e) => {
+
+        e.preventDefault()
+
+
+        try{
+            const res = await fetch("http://localhost:5000/api/auth/login",{
+                method:"POST",
+                headers:{"Content-type":"application/json"},
+                body: JSON.stringify(form)
+            })
+
+            const details = await res.json()
+            console.log(details)
+
+        }catch(err){
+            console.error(err)
+
+        }
     }
 
 
@@ -21,12 +59,12 @@ export function Login() {
                 <p className="formHeading">Sign In</p>
                 <p className="formMessage">Enter your credentials to access your account</p>
 
-                <form method="POST" className="form">
+                <form method="POST" onSubmit={handleSubmit} className="form">
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Enter your email" required />
+                    <input type="email" name="email" value={form.email} id="email" placeholder="Enter your email" onChange={handleChange} required />
 
                     <label htmlFor="password">Password</label>
-                    <input type="password" name="password" id="password" placeholder="Enter your password" required />
+                    <input type="password" name="password" value={form.password} id="password" placeholder="Enter your password" onChange={handleChange} required />
 
 
                     <label htmlFor="remember">
