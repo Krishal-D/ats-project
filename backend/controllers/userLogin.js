@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { pool } from '../config/db.js'
 
 export const loginUsers = async (req, res, next) => {
+
     try {
         const { email, password } = req.body
 
