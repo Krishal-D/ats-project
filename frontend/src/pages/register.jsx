@@ -9,19 +9,83 @@ export function Register() {
         navigate("/login")
     }
 
+    const errors={
+        email:(value)=>{
+            if(!value){
+                return "Email must be given"
+            }else{
+                return ""
+            }
+        } ,
+
+        password:(value)=>{
+            if(!value){
+                return "Password must be given"
+            }else if(value.length < 8){
+                return "Password must have 8 or more characters"
+            }else{
+                return ""
+            }
+        },
+
+        confirmPassword:(value)=>{
+            if(value !== form.password){
+                return "Password must match"
+            }else{
+                return ""
+            }
+        },
+
+        firstName:(value)=>{
+            if(!value){
+                return "Give your FirstName"
+            }else{
+                return ""
+            }
+        },
+
+        lastName:(value)=>{
+            if(!value){
+                return "Give your LastName"
+            }else{
+                return ""
+            }
+        },
+
+        TC:(value)=>{
+            if(!value){
+                return "You must agree on Terms and Conditions"
+            }else{
+                return ""
+            }
+        }
+    }
+
 
     const [form, setForm] = React.useState({
         email: "",
         password: "",
         confirmPassword: "",
         firstName: "",
-        lastName: ""
+        lastName: "",
+        TC:false
     })
+
+    const [error, setError] = React.useState({})
 
     const handleChange = (e) => {
         setForm(prev => ({
             ...prev,
             [e.target.name]: e.target.value
+        }))
+    }
+
+    const handleError = (e)=>{
+
+        const errorMessage = errors[name]?.(e.target.value)
+        setError(prev=>({
+            ...prev,
+            [e.target.name]:errorMessage
         }))
     }
 
@@ -68,29 +132,29 @@ export function Register() {
                     <section className="name">
                         <div className="firstName">
                             <label htmlFor="firstName">First name</label>
-                            <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} placeholder="John" required />
+                            <input type="text" id="firstName" name="firstName" value={form.firstName} onChange={handleChange} onBlur={handleError} placeholder="John" required />
                         </div>
 
 
                         <div className="lastName">
                             <label htmlFor="lastName">Last name</label>
-                            <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} placeholder="Cena" required />
+                            <input type="text" id="lastName" name="lastName" value={form.lastName} onChange={handleChange} onBlur={handleError} placeholder="Cena" required />
                         </div>
 
                     </section>
 
 
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" id="email" value={form.email} onChange={handleChange} placeholder="Enter your email" />
+                    <input type="email" name="email" id="email" value={form.email} onChange={handleChange} onBlur={handleError} placeholder="Enter your email" />
 
                     <label htmlFor="password">Password</label>
-                    <input type="password" name="password" id="password" value={form.password} onChange={handleChange} placeholder="Enter your password" />
+                    <input type="password" name="password" id="password" value={form.password} onChange={handleChange} onBlur={handleError} placeholder="Enter your password" />
 
                     <label htmlFor="confirmPassword">Confirm password</label>
-                    <input type="password" name="confirmPassword" id="confirmPassword" value={form.confirmPassword} onChange={handleChange} placeholder="Comfirm your password" />
+                    <input type="password" name="confirmPassword" id="confirmPassword" value={form.confirmPassword} onChange={handleChange} onBlur={handleError} placeholder="Comfirm your password" />
 
                     <label htmlFor="TC" >
-                        <input type="checkbox" name="TC" id="TC" />
+                        <input type="checkbox" name="TC" id="TC" value={form.TC} onChange={handleChange} onBlur={handleError} />
                         I agree to the <span className="TOS">Terms of Service</span > and <span className="TOS">Privacy Policy</span>
                     </label>
 

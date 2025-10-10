@@ -18,6 +18,31 @@ export function Login() {
         password: ""
     })
 
+    const [error, setError] = React.useState({
+        email: "",
+        password: ""
+    })
+
+    const errors = {
+        email: (value) => {
+            if (!value) {
+                return "Enter Your email"
+            } else {
+                return ""
+            }
+        },
+
+        password: (value) => {
+            if (!value) {
+                return "Enter Your password"
+            } else if (value !== form.password) {
+                return "Password Incorrect"
+            } else {
+                return ""
+            }
+        }
+    }
+
 
 
     const handleChange = (e) => {
@@ -28,22 +53,40 @@ export function Login() {
         ))
     }
 
+    const handleError = (e) => {
+        const { name, value } = e.target
+
+        const errMessage = errors[name]?.(value)
+
+        setError(prev => ({
+            ...prev,
+            [e.target.name]: errMessage
+        }))
+    }
+
     const handleSubmit = async (e) => {
 
         e.preventDefault()
 
 
-        try{
-            const res = await fetch("http://localhost:5000/api/auth/login",{
-                method:"POST",
-                headers:{"Content-type":"application/json"},
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/login", {
+                method: "POST",
+                headers: { "Content-type": "application/json" },
                 body: JSON.stringify(form)
             })
 
             const details = await res.json()
-            console.log(details)
 
-        }catch(err){
+            if (!res.ok) {
+                setError(prev => ({ ...prev, password: data.message }));
+            }else{
+                console.log("login success")
+            }
+            console.log(details)
+            return details
+
+        } catch (err) {
             console.error(err)
 
         }
@@ -61,10 +104,10 @@ export function Login() {
 
                 <form method="POST" onSubmit={handleSubmit} className="form">
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" value={form.email} id="email" placeholder="Enter your email" onChange={handleChange} required />
+                    <input type="email" name="email" value={form.email} id="email" placeholder="Enter your email" onChange={handleChange} onBlur={handleError} required />
 
                     <label htmlFor="password">Password</label>
-                    <input type="password" name="password" value={form.password} id="password" placeholder="Enter your password" onChange={handleChange} required />
+                    <input type="password" name="password" value={form.password} id="password" placeholder="Enter your password" onChange={handleChange} onBlur={handleError} required />
 
 
                     <label htmlFor="remember">
