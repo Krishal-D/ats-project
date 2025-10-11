@@ -1,12 +1,12 @@
-import { pool } from "../config/db.js";
+import { findUserById, createUser, editUser, removeUser, findAllUsers } from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
 const SALT_ROUNDS = 10;
 
 export const getUsers = async (req, res, next) => {
     try {
-        const result = await pool.query("SELECT * FROM users");
-        const data = result.rows.map(({ id, name, email }) => ({ id, name, email }));
+        const users = await findAllUsers()
+        const data = users.map(({ id, name, email }) => ({ id, name, email }));
         res.json(data);
     } catch (err) {
         next(err);
@@ -16,14 +16,13 @@ export const getUsers = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const result = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-        const user = result.rows[0];
+        const users = await findUserById(id)
 
-        if (!user) {
+        if (!users) {
             return res.status(404).json({ error: "User not found" });
         }
 
-        res.json({ id: user.id, name: user.name, email: user.email });
+        res.json({ id: users.id, name: users.name, email: users.email });
     } catch (err) {
         next(err);
     }
@@ -34,12 +33,8 @@ export const registerUsers = async (req, res, next) => {
         const { name, email, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-        const result = await pool.query(
-            "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
-            [name, email, hashedPassword]
-        );
-        const newUser = result.rows[0];
-        res.status(201).json({ id: newUser.id, name: newUser.name, email: newUser.email });
+        const users = await createUser(name, email, hashedPassword)
+        res.status(201).json({ id: users.id, name: users.name, email: users.email });
     } catch (err) {
         next(err);
     }
@@ -49,25 +44,11 @@ export const updateUsers = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { name, email, password } = req.body;
-
-        const oldUserResult = await pool.query("SELECT * FROM users WHERE id=$1", [id]);
-        const oldUser = oldUserResult.rows[0];
-
-        if (!oldUser) {
-            return res.status(404).json({ error: "User not found" });
-        }
-
         const hashedPassword = password
             ? await bcrypt.hash(password, SALT_ROUNDS)
             : oldUser.password;
-
-        const result = await pool.query(
-            "UPDATE users SET name=$1, email=$2, password=$3 WHERE id=$4 RETURNING *",
-            [name, email, hashedPassword, id]
-        );
-
-        const updatedUser = result.rows[0];
-        res.status(200).json({ id: updatedUser.id, name: updatedUser.name, email: updatedUser.email });
+        const users = await (name, email, hashedPassword, id)
+        res.status(200).json({ id: users.id, name: users.name, email: users.email });
     } catch (err) {
         next(err);
     }
@@ -76,14 +57,15 @@ export const updateUsers = async (req, res, next) => {
 export const deleteUsers = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const result = await pool.query("DELETE FROM users WHERE id=$1 RETURNING *", [id]);
-        const deletedUser = result.rows[0];
 
-        if (!deletedUser) {
+        const users = await removeUser(id)
+
+
+        if (!users) {
             return res.status(404).json({ error: "User not found" });
         }
 
-        res.json({ id: deletedUser.id, name: deletedUser.name, email: deletedUser.email });
+        res.json({ id: users.id, name: users.name, email: users.email });
     } catch (err) {
         next(err);
     }
