@@ -1,11 +1,12 @@
 import { Login } from "./pages/login"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { Register } from "./pages/register"
+import { JobCard } from "./components/jobCard"
 
 
 export default function App() {
 
-  
+
   return (
 
     <>
@@ -22,6 +23,10 @@ export default function App() {
 
           <Route path="/register" element={
             <Register />
+          } />
+
+          <Route path="/jobCard" element={
+            <JobCard />
           } />
         </Routes>
 
