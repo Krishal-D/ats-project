@@ -1,4 +1,4 @@
-import { pool } from "../config/db";
+import { pool } from "../config/db.js";
 
 export const findAllUsers = async () => {
     const result = await pool.query("SELECT * FROM users");
@@ -11,6 +11,12 @@ export const findUserById = async (id) => {
 }
 
 export const createUser = async (name, email, hashedPassword) => {
+    const existingEmail = await pool.query(`SELECT  * FROM users WHERE email=$1`, [email])
+
+    if (existingEmail.rows.length > 0) {
+        throw new Error("Email already exists");
+    }
+
     const result = await pool.query(
         "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
         [name, email, hashedPassword]
@@ -24,7 +30,7 @@ export const editUser = async (name, email, hashedPassword, id) => {
     const oldUser = oldUserResult.rows[0];
 
     if (!oldUser) {
-        return res.status(404).json({ error: "User not found" });
+        throw new Error("User not found");
     }
 
     const result = await pool.query(
