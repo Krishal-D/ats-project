@@ -1,8 +1,8 @@
-import { pool } from "../config/db";
+import { pool } from "../config/db.js";
 
 export const findAllJobs = async () => {
-    const result = await pool.query(`SELECT * FROM jobS`)
-    return result
+    const result = await pool.query(`SELECT * FROM jobs`)
+    return result.rows
 }
 
 export const findJobById = async (id) => {
@@ -15,7 +15,7 @@ export const createJobs = async (title, description, location, salary, created_a
     return result.rows[0]
 }
 
-export const editJobs = async (title, description, location, salary, created_at) => {
+export const editJobs = async (title, description, location, salary, created_at,id) => {
     const result = await pool.query(`UPDATE jobs SET title=$1,description=$2, location=$3,salary=$4,created_at=$5 WHERE id=$6 RETURNING *`, [title, description, location, salary, created_at, id])
     return result.rows[0]
 }
