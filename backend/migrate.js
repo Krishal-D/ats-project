@@ -1,18 +1,26 @@
-import { userMigrate } from "./migration/001_userMigrate.js";
-import { jobMigrate } from "./migration/002_jobMigrate.js"
+import { userMigrate, down as userDown } from "./migration/001_userMigrate.js";
+import { jobMigrate, down as jobDown } from "./migration/002_jobMigrate.js";
 import { pool } from "./config/db.js";
 
-
-async function runMigrations() {
+async function runMigrations(direction) {
     try {
-        await userMigrate(pool);
-        await jobMigrate(pool);
+        if (direction === "up") {
+            await userMigrate(pool);
+            await jobMigrate(pool);
+        } else if (direction === "down") {
+            await jobDown(pool);
+            await userDown(pool);
+        } else {
+            console.error("Please provide 'up' or 'down' as an argument.");
+            return;
+        }
+        console.log("Migrations completed!");
     } catch (err) {
-        next(err)
+        console.error("Migration error:", err.message);
     } finally {
-        await pool.end()
+        await pool.end();
     }
 }
 
-
-runMigrations()
+const direction = process.argv[2];
+runMigrations(direction);
