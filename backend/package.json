@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "This folder contains a minimal Express starter for the ATS backend.",
   "main": "index.js",
   "scripts": {
