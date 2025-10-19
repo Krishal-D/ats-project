@@ -1,24 +1,26 @@
+import { userMigrate, down as userDown } from "./migration/001_userMigrate.js";
+import { jobMigrate, down as jobDown } from "./migration/002_jobMigrate.js";
 import { pool } from "./config/db.js";
 
-async function migrate() {
+async function runMigrations(direction) {
     try {
-
-        await pool.query(`  
-            CREATE TABLE IF NOT EXISTS users(
-            id SERIAL PRIMARY KEY,
-            email VARCHAR(100) NOT NULL UNIQUE,
-            name VARCHAR(100) NOT NULL,
-            password VARCHAR(255) NOT NULL
-
-        )
-        `)
-
+        if (direction === "up") {
+            await userMigrate(pool);
+            await jobMigrate(pool);
+        } else if (direction === "down") {
+            await jobDown(pool);
+            await userDown(pool);
+        } else {
+            console.error("Please provide 'up' or 'down' as an argument.");
+            return;
+        }
+        console.log("Migrations completed!");
     } catch (err) {
-        console.error(err.message)
+        console.error("Migration error:", err.message);
     } finally {
-        pool.end()
+        await pool.end();
     }
 }
 
-
-migrate()
+const direction = process.argv[2];
+runMigrations(direction);
