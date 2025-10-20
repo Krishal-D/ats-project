@@ -6,12 +6,16 @@ export async function jobMigrate(pool) {
             CREATE TABLE  IF NOT EXISTS jobs(
             id SERIAL PRIMARY KEY,
             title varchar(200) NOT NULL,
-            description varchar(400) NOT NULL,
+            company varchar(200) NOT NULL,
+            description TEXT NOT NULL,
             location varchar(200) NOT NULL,
             salary varchar(200) NOT NULL,
+            job_type varchar(200) NOT NULL DEFAULT 'Full-time',
+            tech_stack TEXT[] DEFAULT '{}',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )`
         )
+
 
     } catch (err) {
         console.error("Job migration failed:", err);
