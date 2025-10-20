@@ -21,11 +21,9 @@ export const getJobsById = async (req, res, next) => {
 
 export const registerJobs = async (req, res, next) => {
     try {
-        const { title, description, location, salary, created_at } = req.body
-
-        const jobs = await createJobs(title, description, location, salary, created_at)
-        res.status(200).json(jobs)
-
+        const { title, company, description, location, salary, job_type, tech_stack, created_at } = req.body;
+        const jobs = await createJobs(title, company, description, location, salary, job_type, tech_stack, created_at);
+        res.status(200).json(jobs);
     } catch (err) {
         next(err)
     }
@@ -33,11 +31,9 @@ export const registerJobs = async (req, res, next) => {
 
 export const updateJobs = async (req, res, next) => {
     try {
-        const { id } = req.params
-        const { title, description, location, salary, created_at } = req.body
-
-        const jobs = await editJobs( title, description, location, salary, created_at,id)
-
+        const { id } = req.params;
+        const { title, company, description, location, salary, job_type, tech_stack, created_at } = req.body;
+        const jobs = await editJobs(title, company, description, location, salary, job_type, tech_stack, created_at, id);
         res.json(jobs)
 
     } catch (err) {

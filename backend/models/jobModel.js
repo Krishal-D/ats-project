@@ -10,13 +10,21 @@ export const findJobById = async (id) => {
     return result.rows[0]
 }
 
-export const createJobs = async (title, description, location, salary, created_at) => {
-    const result = await pool.query(`INSERT INTO jobs (title, description,location, salary, created_at) VALUES ($1,$2,$3,$4,$5) RETURNING * `, [title, description, location, salary, created_at])
+export const createJobs = async (title, company, description, location, salary, job_type, tech_stack, created_at) => {
+    const result = await pool.query(
+        `INSERT INTO jobs (title,company, description, location, salary, job_type, tech_stack, created_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING *`,
+        [title, company, description, location, salary, job_type, tech_stack, created_at]
+    )
     return result.rows[0]
 }
-
-export const editJobs = async (title, description, location, salary, created_at,id) => {
-    const result = await pool.query(`UPDATE jobs SET title=$1,description=$2, location=$3,salary=$4,created_at=$5 WHERE id=$6 RETURNING *`, [title, description, location, salary, created_at, id])
+export const editJobs = async (title, company, description, location, salary, job_type, tech_stack, created_at, id) => {
+    const result = await pool.query(
+        `UPDATE jobs
+         SET title=$1,company=$2, description=$3, location=$4, salary=$5, job_type=$6, tech_stack=$7, created_at=$8
+         WHERE id=$9 RETURNING *`,
+        [title, company, description, location, salary, job_type, tech_stack, created_at, id]
+    )
     return result.rows[0]
 }
 
