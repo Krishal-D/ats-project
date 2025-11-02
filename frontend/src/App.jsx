@@ -2,6 +2,7 @@ import { Login } from "./pages/login"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { Register } from "./pages/register"
 import { JobCard } from "./components/jobCard"
+import { JobList } from "./components/jobList"
 
 
 export default function App() {
@@ -28,6 +29,11 @@ export default function App() {
           <Route path="/jobCard" element={
             <JobCard />
           } />
+
+          <Route path="/jobList" element={
+            <JobList />
+          } />
+
         </Routes>
 
 
