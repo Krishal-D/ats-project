@@ -1,4 +1,5 @@
-import '../styles/login.css';
+import '../styles/form.css';
+import styles from '../styles/login.module.css';
 import { HiArrowLongLeft } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -83,15 +84,15 @@ export function Login() {
     };
 
     return (
-        <main className="loginForm">
+        <main className={styles.loginForm}>
             <h3>TalentTrack</h3>
-            <p className="headMessage">Welcome back to your hiring platform</p>
+            <p className={styles.headMessage}>Welcome back to your hiring platform</p>
 
-            <section className="formSection">
-                <p className="formHeading">Sign In</p>
-                <p className="formMessage">Enter your credentials to access your account</p>
+            <section className="formCard">
+                <p className={styles.formHeading}>Sign In</p>
+                <p className={styles.formMessage}>Enter your credentials to access your account</p>
 
-                <form method="POST" onSubmit={handleSubmit} className="form">
+                <form method="POST" onSubmit={handleSubmit} className="formBody">
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -128,15 +129,15 @@ export function Login() {
                         />Remember me
                     </label>
 
-                    <button type="submit" className="signIn">Sign In</button>
-                    <p className="forgot">Forgot your password?</p>
+                    <button type="submit" className={styles.signIn}>Sign In</button>
+                    <p className={styles.forgot}>Forgot your password?</p>
                     <hr />
-                    <p className="account">Don't have an account?</p>
-                    <button type="button" className="createAcc" onClick={handleNavigate}>Create Account</button>
+                    <p className={styles.account}>Don't have an account?</p>
+                    <button type="button" className={styles.createAcc} onClick={handleNavigate}>Create Account</button>
                 </form>
             </section>
 
-            <button className='back'>
+            <button className={styles.back}>
                 <HiArrowLongLeft /> <span>Back to Home</span>
             </button>
         </main>
