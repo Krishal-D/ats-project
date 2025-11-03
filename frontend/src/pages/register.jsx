@@ -1,3 +1,5 @@
+import '../styles/form.css';
+import styles from '../styles/login.module.css';
 import { useNavigate } from "react-router-dom";
 import React from "react";
 
@@ -135,17 +137,17 @@ export function Register() {
     };
 
     return (
-        <main className="registerForm">
+        <main className={styles.registerForm}>
             <h3>Create Your Account</h3>
-            <p className="headMessage">Start your journey with TalentTrack today.</p>
+            <p className={styles.headMessage}>Start your journey with TalentTrack today.</p>
 
-            <section className="formSection">
-                <p className="formHeading">Register</p>
-                <p className="formMessage">Enter your credentials to create your account</p>
+            <section className="formCard">
+                <p className={styles.formHeading}>Register</p>
+                <p className={styles.formMessage}>Enter your credentials to create your account</p>
 
-                <form method="POST" onSubmit={handleSubmit} className="form">
-                    <section className="name">
-                        <div className="firstName">
+                <form method="POST" onSubmit={handleSubmit} className="formBody">
+                    <section className={styles.name}>
+                        <div className={styles.firstName}>
                             <label htmlFor="firstName">First name</label>
                             <input
                                 type="text"
@@ -160,7 +162,7 @@ export function Register() {
                         </div>
                         {error.firstName && <p className="error">{error.firstName}</p>}
 
-                        <div className="lastName">
+                        <div className={styles.lastName}>
                             <label htmlFor="lastName">Last name</label>
                             <input
                                 type="text"
@@ -224,9 +226,9 @@ export function Register() {
                         I agree to the <span className="TOS">Terms of Service</span> and <span className="TOS">Privacy Policy</span>
                     </label>
 
-                    <button type="submit" className="signUp">Create Account</button>
+                    <button type="submit" className={styles.signUp}>Create Account</button>
 
-                    <p className="account">Already have an account? <span className="TOS" onClick={handleNavigate}>Sign in</span></p>
+                    <p className={styles.account}>Already have an account? <span className={styles.TOS} onClick={handleNavigate}>Sign in</span></p>
                 </form>
             </section>
         </main>
