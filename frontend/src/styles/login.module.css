@@ -1,0 +1,178 @@
+.loginForm,
+.registerForm {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #ffffff;
+}
+
+.name {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    text-align: start;
+}
+
+.firstName,
+.lastName {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
+}
+
+.signIn,
+.signUp {
+    background-color: #0ea5e9;
+    color: #ffffff;
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 320px;
+    padding: 0.75rem;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.signIn:hover,
+.signUp:hover {
+    background-color: rgba(14, 165, 233, 0.9);
+}
+
+.signIn:focus,
+.signUp:focus {
+    outline: none;
+    border: 3px solid rgba(14, 165, 233, 0.5);
+}
+
+.headMessage,
+.formMessage {
+    color: #64748b;
+}
+
+.headMessage {
+    font-size: 1rem;
+}
+
+.formMessage {
+    font-size: 0.875rem;
+}
+
+.formHeading {
+    font-weight: 400;
+    line-height: 1;
+    font-size: 1.5rem;
+    margin-bottom: 0.1rem;
+    text-align: center;
+}
+
+.createAcc {
+    background-color: white;
+    border: none;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 320px;
+    padding: 0.75rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.createAcc:hover {
+    background-color: #0ea5e9;
+    color: white;
+}
+
+.createAcc:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #0ea5e9;
+}
+
+hr {
+    height: 2px;
+    width: 100%;
+    margin: 0.75rem 0 0.75rem 0;
+    color: rgba(0, 0, 0, 0.08);
+}
+
+.forgot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem;
+    color: #0ea5e9;
+    width: 100%;
+}
+
+.TOS {
+    color: #0ea5e9;
+    cursor: pointer;
+}
+
+.account {
+    width: 100%;
+}
+
+.back:hover,
+.forgot:hover,
+.TOS:hover {
+    text-decoration: underline;
+    color: #0ea5e9;
+}
+
+.back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.1rem;
+    border: none;
+    color: #0ea5e9;
+    background: none;
+    cursor: pointer;
+}
+
+.back:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #0ea5e9;
+}
+
+@media (max-width: 480px) {
+    .loginForm,
+    .registerForm {
+        padding: 0.5rem;
+    }
+
+    .signIn,
+    .signUp,
+    .createAcc {
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .loginForm,
+    .registerForm {
+        padding: 2rem;
+    }
+
+    .formHeading {
+        font-size: 1.625rem;
+    }
+
+    .signIn,
+    .signUp,
+    .createAcc {
+        max-width: 320px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .loginForm,
+    .registerForm {
+        padding: 3rem;
+    }
+}
