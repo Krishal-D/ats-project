@@ -10,10 +10,10 @@
   background-color: #ffffff;
 }
 
-.header{
+.header {
   width: 100%;
   max-width: 720px; /* match formCard width */
-  margin: 0 auto;   /* center the block horizontally so it lines up with the card */
+  margin: 0 auto; /* center the block horizontally so it lines up with the card */
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -24,7 +24,7 @@
 
 .header h3 {
   font-size: 1.875rem; /* larger title */
-  font-weight: 700;    /* bold */
+  font-weight: 700; /* bold */
   margin: 0 0 0.25rem 0;
 }
 
@@ -74,7 +74,7 @@
 }
 
 /* Ensure inputs/selects/textareas span full available width on this page */
-.formBody input[type="text"],
+.formBody input[type='text'],
 .formBody select,
 .formBody textarea {
   width: 100%;
@@ -105,7 +105,7 @@
 }
 
 /* Ensure inputs and select share the same height/padding so they align visually */
-.formBody input[type="text"] {
+.formBody input[type='text'] {
   height: 2.25rem;
   padding: 0.75rem;
   box-sizing: border-box;
@@ -115,7 +115,7 @@
 .formBody select {
   height: 2.25rem;
   padding: 0.5rem 0.75rem; /* slightly less vertical padding than inputs */
-  line-height: 1.2;        /* ensure text fits within the content box */
+  line-height: 1.2; /* ensure text fits within the content box */
   box-sizing: border-box;
 }
 
@@ -156,7 +156,7 @@
 .postButton {
   border-radius: 0.5rem;
   padding: 0.6rem 1rem;
-  border: 2px solid rgba(0,0,0,0.08);
+  border: 2px solid rgba(0, 0, 0, 0.08);
   cursor: pointer;
 }
 

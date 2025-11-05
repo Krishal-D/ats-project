@@ -16,6 +16,7 @@ If you are developing a production application, we recommend using TypeScript wi
 Lightweight Vite + React frontend scaffold. Start building under `src/`.
 
 Next steps:
+
 - Create pages under `src/pages` (e.g. `src/pages/Auth/Login.jsx`, `src/pages/Auth/Register.jsx`).
 - Add global styles in `src/styles` and component CSS next to components.
 - Run `npm run dev` and open http://localhost:5173

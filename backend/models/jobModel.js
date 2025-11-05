@@ -1,34 +1,74 @@
-import { pool } from "../config/db.js";
+import { pool } from '../config/db.js'
 
 export const findAllJobs = async () => {
-    const result = await pool.query(`SELECT * FROM jobs`)
-    return result.rows
+  const result = await pool.query(`SELECT * FROM jobs`)
+  return result.rows
 }
 
 export const findJobById = async (id) => {
-    const result = await pool.query(`SELECT * FROM jobs WHERE id=$1`, [id])
-    return result.rows[0]
+  const result = await pool.query(`SELECT * FROM jobs WHERE id=$1`, [id])
+  return result.rows[0]
 }
 
-export const createJobs = async (title, company, description, location, salary, job_type, tech_stack, created_at) => {
-    const result = await pool.query(
-        `INSERT INTO jobs (title,company, description, location, salary, job_type, tech_stack, created_at)
+export const createJobs = async (
+  title,
+  company,
+  description,
+  location,
+  salary,
+  job_type,
+  tech_stack,
+  created_at
+) => {
+  const result = await pool.query(
+    `INSERT INTO jobs (title,company, description, location, salary, job_type, tech_stack, created_at)
          VALUES ($1, $2, $3, $4, $5, $6, $7,$8) RETURNING *`,
-        [title, company, description, location, salary, job_type, tech_stack, created_at]
-    )
-    return result.rows[0]
+    [
+      title,
+      company,
+      description,
+      location,
+      salary,
+      job_type,
+      tech_stack,
+      created_at,
+    ]
+  )
+  return result.rows[0]
 }
-export const editJobs = async (title, company, description, location, salary, job_type, tech_stack, created_at, id) => {
-    const result = await pool.query(
-        `UPDATE jobs
+export const editJobs = async (
+  title,
+  company,
+  description,
+  location,
+  salary,
+  job_type,
+  tech_stack,
+  created_at,
+  id
+) => {
+  const result = await pool.query(
+    `UPDATE jobs
          SET title=$1,company=$2, description=$3, location=$4, salary=$5, job_type=$6, tech_stack=$7, created_at=$8
          WHERE id=$9 RETURNING *`,
-        [title, company, description, location, salary, job_type, tech_stack, created_at, id]
-    )
-    return result.rows[0]
+    [
+      title,
+      company,
+      description,
+      location,
+      salary,
+      job_type,
+      tech_stack,
+      created_at,
+      id,
+    ]
+  )
+  return result.rows[0]
 }
 
 export const removeJobs = async (id) => {
-    const result = await pool.query(`DELETE FROM jobs WHERE id=$1 RETURNING *`, [id])
-    return result.rows[0]
+  const result = await pool.query(`DELETE FROM jobs WHERE id=$1 RETURNING *`, [
+    id,
+  ])
+  return result.rows[0]
 }

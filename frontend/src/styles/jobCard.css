@@ -1,245 +1,232 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    color: #0a0a0a;
-    background-color: white;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1.5;
+  color: #0a0a0a;
+  background-color: white;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem 1rem;
-    /* Make each card wrapper fill its grid cell */
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  width: 100%;
+  height: 100%;
 }
 
 .jobBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    max-width: 450px;
-    margin: 0;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid #d1d5db;
-    transition: all 0.3s ease;
-    overflow: hidden;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-width: 450px;
+  margin: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d1d5db;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .jobBox:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.2);
-
+  transform: translateY(-6px);
+  box-shadow: 0 10px 12px rgba(0, 0, 0, 0.2);
 }
 
 .heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 1rem 1.5rem;
-    min-height: 72px;
-    gap: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  min-height: 72px;
+  gap: 0.75rem;
 }
 
 .subHeader {
-    flex: 1 1 auto;
-    /* let title/company take remaining space */
-    min-width: 0;
-    /* allow text to truncate instead of pushing */
+  flex: 1 1 auto;
+  /* let title/company take remaining space */
+  min-width: 0;
+  /* allow text to truncate instead of pushing */
 }
 
 .subHeader h2 {
-    color: black;
-    font-weight: 550;
-    font-size: 1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  color: black;
+  font-weight: 550;
+  font-size: 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .subHeader h4 {
-    color: #64748b;
-    font-weight: 400;
-    font-size: 0.875rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  color: #64748b;
+  font-weight: 400;
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .jobType {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgb(210, 206, 206);
-    padding: 0.4rem 0.9rem;
-    /* slightly smaller to avoid wrapping */
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.3s ease-out;
-    white-space: nowrap;
-    /* prevent breaking into two lines */
-    display: inline-block;
-    flex: 0 0 auto;
-    /* don't shrink into multiple lines */
-    max-width: 40%;
-    /* guard long types; will ellipsis */
-    overflow: hidden;
-    text-overflow: ellipsis;
-
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgb(210, 206, 206);
+  padding: 0.4rem 0.9rem;
+  /* slightly smaller to avoid wrapping */
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.3s ease-out;
+  white-space: nowrap;
+  /* prevent breaking into two lines */
+  display: inline-block;
+  flex: 0 0 auto;
+  /* don't shrink into multiple lines */
+  max-width: 40%;
+  /* guard long types; will ellipsis */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .jobType:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 12px rgba(0, 0, 0, 0.2);
-
+  transform: translateY(-5px);
+  box-shadow: 0 20px 12px rgba(0, 0, 0, 0.2);
 }
 
-
 .infoBar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    /* tighter spacing */
-    padding: 0.75rem;
-    /* slightly smaller padding */
-    width: 100%;
-    min-height: 48px;
-    /* stabilize infoBar height */
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  /* tighter spacing */
+  padding: 0.75rem;
+  /* slightly smaller padding */
+  width: 100%;
+  min-height: 48px;
+  /* stabilize infoBar height */
 }
 
 .subInfo {
-    /* Keep icon and text side-by-side; let text wrap next to the icon */
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    column-gap: 0.4rem;
-    width: auto;
-    /* size to content instead of full width */
-    max-width: 100%;
-    font-size: 12px;
-    /* smaller text */
+  /* Keep icon and text side-by-side; let text wrap next to the icon */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 0.4rem;
+  width: auto;
+  /* size to content instead of full width */
+  max-width: 100%;
+  font-size: 12px;
+  /* smaller text */
 }
 
 .subInfo svg {
-    /* Prevent icon from shrinking or wrapping */
-    width: 14px;
-    /* smaller icon */
-    height: 14px;
+  /* Prevent icon from shrinking or wrapping */
+  width: 14px;
+  /* smaller icon */
+  height: 14px;
 }
 
 .subInfo span {
-    /* Allow long text to wrap within the text column */
-    word-break: break-word;
-    overflow-wrap: anywhere;
+  /* Allow long text to wrap within the text column */
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
-
 .techStack {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 1rem;
-    gap: 0.5rem;
-    /* Avoid growing height too much due to many tags */
-    max-height: 56px;
-    overflow: hidden;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+  gap: 0.5rem;
+  /* Avoid growing height too much due to many tags */
+  max-height: 56px;
+  overflow: hidden;
 }
 
 .tag {
-    background-color: #f3f4f6;
-    font-weight: 600;
-    font-size: 12px;
-    padding: 0.5rem 1.5rem;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    color: #111827;
-    text-align: center;
-    transition: background-color 0.2s ease;
-
+  background-color: #f3f4f6;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #111827;
+  text-align: center;
+  transition: background-color 0.2s ease;
 }
 
 .tag:hover {
-    background-color: rgba(243, 244, 246, 0.8);
+  background-color: rgba(243, 244, 246, 0.8);
 }
 
-
 .description {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-    /* standard property */
-    -webkit-box-orient: vertical;
-    padding: 0;
-    width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  /* standard property */
+  -webkit-box-orient: vertical;
+  padding: 0;
+  width: 100%;
 }
 
 .descriptionWrapper {
-    padding: 1rem;
-    flex-grow: 1;
+  padding: 1rem;
+  flex-grow: 1;
 }
 
 .applyButton {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    background-color: #0ea5e9;
-    color: #ffffff;
-    border: 2px solid rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-    width: 95%;
-    height: 2.5rem;
-    padding: 0.75rem 2rem;
-    cursor: pointer;
-    font-size: 1rem;
-    margin: 0.5rem 1rem;
-    transition: background-color 0.2s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  background-color: #0ea5e9;
+  color: #ffffff;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  width: 95%;
+  height: 2.5rem;
+  padding: 0.75rem 2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
 }
 
 .applyButton:hover {
-    background-color: rgba(14, 165, 233, 0.9);
+  background-color: rgba(14, 165, 233, 0.9);
 }
 
 .applyButton:focus {
-    outline: none;
-    border: 3px solid rgba(14, 165, 233, 0.5);
+  outline: none;
+  border: 3px solid rgba(14, 165, 233, 0.5);
 }
 
-
-.listContainer{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+.listContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .jobList {
-    width: 100%;
-    margin: 0.8rem 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
-    grid-auto-rows: 420px;
-    gap: 1rem;
- 
-
+  width: 100%;
+  margin: 0.8rem 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+  grid-auto-rows: 420px;
+  gap: 1rem;
 }
