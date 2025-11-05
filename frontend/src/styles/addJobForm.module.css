@@ -10,6 +10,24 @@
   background-color: #ffffff;
 }
 
+.header{
+  width: 100%;
+  max-width: 720px; /* match formCard width */
+  margin: 0 auto;   /* center the block horizontally so it lines up with the card */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: left;
+  padding: 0; /* no extra padding so h3 aligns exactly with card edge */
+}
+
+.header h3 {
+  font-size: 1.875rem; /* larger title */
+  font-weight: 700;    /* bold */
+  margin: 0 0 0.25rem 0;
+}
+
 .headMessage {
   color: #64748b;
   font-size: 1rem;

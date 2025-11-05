@@ -4,8 +4,10 @@ import styles from '../styles/addJobForm.module.css';
 export function PostJob() {
     return (
         <main className={styles.postContainer}>
-            <h3>Post New Job</h3>
-            <p className={styles.headMessage}>Create a new job listing to attract top talent</p>
+            <section className={styles.header}>
+                <h3>Post New Job</h3>
+                <p className={styles.headMessage}>Create a new job listing to attract top talent</p>
+            </section>
 
             <section className={`${styles.formCard} ${styles.jobPostCard}`}>
                 <p className={styles.formHeading}>Job Details</p>
@@ -33,9 +35,9 @@ export function PostJob() {
                         <div className={styles.field}>
                             <label htmlFor="jobType">Job Type</label>
                             <select name="jobType" id="jobType" required>
-                                <option value="" disabled>Select job type</option>
+                                <option value="" default disabled>Select job type</option>
                                 <option value="partTime">Part-time</option>
-                                <option value="partTime">Full-time</option>
+                                <option value="fullTime">Full-time</option>
                                 <option value="contract">Contract</option>
                             </select>
                         </div>
