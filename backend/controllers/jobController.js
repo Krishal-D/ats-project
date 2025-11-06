@@ -35,7 +35,9 @@ export const registerJobs = async (req, res, next) => {
       salary,
       job_type,
       tech_stack,
-      created_at,
+      requirements,
+      responsibility,
+      benefits
     } = req.body
     const jobs = await createJobs(
       title,
@@ -45,7 +47,9 @@ export const registerJobs = async (req, res, next) => {
       salary,
       job_type,
       tech_stack,
-      created_at
+      requirements,
+      responsibility,
+      benefits
     )
     res.status(200).json(jobs)
   } catch (err) {
@@ -64,7 +68,9 @@ export const updateJobs = async (req, res, next) => {
       salary,
       job_type,
       tech_stack,
-      created_at,
+      requirements,
+      responsibility,
+      benefits
     } = req.body
     const jobs = await editJobs(
       title,
@@ -74,7 +80,9 @@ export const updateJobs = async (req, res, next) => {
       salary,
       job_type,
       tech_stack,
-      created_at,
+      requirements,
+      responsibility,
+      benefits,
       id
     )
     res.json(jobs)
