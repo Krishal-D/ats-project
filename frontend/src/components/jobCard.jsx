@@ -2,11 +2,16 @@ import { CiLocationOn } from 'react-icons/ci'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { IoIosTimer } from 'react-icons/io'
 import '../styles/jobCard.css'
-import React from 'react'
 
 export function JobCard({ details }) {
-  const time = details.created_at
-  const createdTime = time.split('T')[0]
+  if (!details) return null; 
+
+
+  const date = new Date(details.created_at)
+
+  const createdTime = date ? date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A";
+  const techStack = Array.isArray(details.tech_stack) ? details.tech_stack : [];
+
 
   return (
     <div className="container">
@@ -41,7 +46,7 @@ export function JobCard({ details }) {
         </section>
 
         <section className="techStack">
-          {details.tech_stack.map((tech, idx) => (
+          {techStack.map((tech, idx) => (
             <p key={idx} className="tag">
               {tech}
             </p>
