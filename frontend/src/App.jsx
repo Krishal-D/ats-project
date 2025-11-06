@@ -16,8 +16,6 @@ export default function App() {
 
           <Route path="/register" element={<Register />} />
 
-          <Route path="/jobCard" element={<JobCard />} />
-
           <Route path="/jobList" element={<JobList />} />
 
           <Route path="/jobForm" element={<PostJob />} />
