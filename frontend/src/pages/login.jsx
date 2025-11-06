@@ -53,7 +53,7 @@ export function Login() {
 
     setError((prev) => ({
       ...prev,
-      [e.target.name]: errMessage,
+      [name]: errMessage,
     }))
   }
 
