@@ -11,7 +11,7 @@ export async function jobMigrate(pool) {
             job_type varchar(200) NOT NULL DEFAULT 'Full-time',
             tech_stack TEXT[] DEFAULT '{}',
             requirements TEXT[] Default '{}',
-            responsibilities TEXT[] Default '{}',
+            responsibility TEXT[] Default '{}',
             benefits TEXT[] Default '{}',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )`)

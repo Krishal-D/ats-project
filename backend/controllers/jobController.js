@@ -39,6 +39,7 @@ export const registerJobs = async (req, res, next) => {
       responsibility,
       benefits
     } = req.body
+    
     const jobs = await createJobs(
       title,
       company,
