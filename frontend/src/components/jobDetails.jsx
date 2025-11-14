@@ -3,17 +3,19 @@ import { CiLocationOn } from 'react-icons/ci'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { IoIosTimer } from 'react-icons/io'
 import '../styles/jobDetails.css'
+import { useParams } from "react-router-dom"
 
 export function Details() {
 
     const [data, setData] = React.useState({})
+    const { id } = useParams()
 
     const date = new Date(data.created_at)
     const createdTime = date ? date.toLocaleString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"
 
 
     const getDetails = async () => {
-        const res = await fetch('http://localhost:5000/api/job')
+        const res = await fetch(`http://localhost:5000/api/job/${id}`)
         const details = await res.json()
         setData(Array.isArray(details) ? details[0] : details);
 
@@ -21,7 +23,7 @@ export function Details() {
 
     React.useEffect(() => {
         getDetails()
-    }, [])
+    }, [id])
 
 
 
