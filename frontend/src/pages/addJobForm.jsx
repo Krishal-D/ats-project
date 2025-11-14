@@ -110,8 +110,21 @@ export function PostJob() {
         }))
     }
 
+    function normalizeJobType(str) {
+        if (!str) return "";
+        const cleaned = str.toLowerCase().replace(/[\s-_]/g, "");
+        if (cleaned.includes("full")) return "Full-time";
+        if (cleaned.includes("part")) return "Part-time";
+        if (cleaned.includes("contract")) return "Contract";
+        return str; // fallback, leave as is
+    }
+
+
     const formattedForm = {
         ...form,
+
+        job_type: normalizeJobType(form.job_type),
+
 
         // Convert comma-separated skills into an array
         tech_stack: form.tech_stack
