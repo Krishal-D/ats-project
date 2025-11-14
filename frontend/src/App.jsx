@@ -20,7 +20,7 @@ export default function App() {
 
           <Route path="/jobForm" element={<PostJob />} />
 
-          <Route path='jobDetails' element={<Details/>}/>
+          <Route path='/jobDetails/:id' element={<Details />} />
         </Routes>
       </BrowserRouter>
     </>
