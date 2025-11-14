@@ -1,9 +1,9 @@
 import { Login } from './pages/login'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Register } from './pages/register'
-import { JobCard } from './components/jobCard'
 import { JobList } from './components/jobList'
 import { PostJob } from './pages/addJobForm'
+import { Details } from './components/jobDetails'
 
 export default function App() {
   return (
@@ -19,6 +19,8 @@ export default function App() {
           <Route path="/jobList" element={<JobList />} />
 
           <Route path="/jobForm" element={<PostJob />} />
+
+          <Route path='jobDetails' element={<Details/>}/>
         </Routes>
       </BrowserRouter>
     </>
