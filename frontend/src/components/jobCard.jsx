@@ -1,10 +1,11 @@
 import { CiLocationOn } from 'react-icons/ci'
 import { BsCurrencyDollar } from 'react-icons/bs'
 import { IoIosTimer } from 'react-icons/io'
+import { useNavigate } from 'react-router-dom'
 import '../styles/jobCard.css'
 
 export function JobCard({ details }) {
-  if (!details) return null; 
+  if (!details) return null;
 
 
   const date = new Date(details.created_at)
@@ -12,6 +13,12 @@ export function JobCard({ details }) {
   const createdTime = date ? date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A";
   const techStack = Array.isArray(details.tech_stack) ? details.tech_stack : [];
 
+  const navigate = useNavigate()
+
+
+  function viewDetails(id) {
+    navigate(`/jobDetails/${id}`)
+  }
 
   return (
     <div className="container">
@@ -53,9 +60,16 @@ export function JobCard({ details }) {
           ))}
         </section>
 
-        <button className="applyButton" type="submit">
-          Apply now
-        </button>
+
+        <section className="buttonRow">
+          <button className='viewDetails' type='button' onClick={() => viewDetails(details.id)}>
+            View Details
+          </button>
+          <button className="applyButton" type="submit">
+            Apply now
+          </button>
+        </section>
+
       </main>
     </div>
   )
