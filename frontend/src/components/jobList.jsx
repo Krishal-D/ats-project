@@ -28,14 +28,16 @@ export function JobList() {
 
     return (
       (filter.search ?
-        d.title.toLowerCase().includes(filter.search.toLowerCase()) ||
-        d.company.toLowerCase().includes(filter.search.toLowerCase()) ||
+        d.title?.toLowerCase().includes(filter.search.toLowerCase()) ||
+        d.company?.toLowerCase().includes(filter.search.toLowerCase()) ||
         techStack.some(skill =>
-          skill.toLowerCase().includes(filter.search.toLowerCase())
+          skill?.toLowerCase().includes(filter.search.toLowerCase())
         )
         : true) &&
-      (filter.location ? d.location === filter.location : true) &&
-      (filter.job_type ? d.job_type === filter.job_type : true)
+      (filter.location ? d.location?.trim().toLowerCase() === filter.location.toLowerCase() : true) &&
+      (filter.job_type
+        ? d.job_type?.toLowerCase().replace(/\s|-/g, '') === filter.job_type.toLowerCase()
+        : true)
     )
   }
   )
@@ -47,6 +49,7 @@ export function JobList() {
       [name]: value
     }))
   }
+
 
 
 
@@ -79,7 +82,7 @@ export function JobList() {
           value={filter.location}
           onChange={handleChange}
         >
-          <option defaultValue="" disabled>Location</option>
+          <option value="" >All Locations</option>
           {Array.from(new Set(data.map((job) => job.location))).map((l, index) => (
             <option key={index} value={l}>
               {l}
@@ -91,9 +94,7 @@ export function JobList() {
           value={filter.job_type}
           onChange={handleChange}
         >
-          <option value="" disabled>
-            Select job type
-          </option>
+          <option value="">All Job Types</option>
           <option value="partTime">Part-time</option>
           <option value="fullTime">Full-time</option>
           <option value="contract">Contract</option>
