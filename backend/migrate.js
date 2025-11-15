@@ -1,5 +1,6 @@
 import { userMigrate, down as userDown } from './migration/001_userMigrate.js'
 import { jobMigrate, down as jobDown } from './migration/002_jobMigrate.js'
+import { applicationMigrate, down as applicationDown } from './migration/003_applicationMigrate.js'
 import { pool } from './config/db.js'
 
 async function runMigrations(direction) {
@@ -7,9 +8,12 @@ async function runMigrations(direction) {
     if (direction === 'up') {
       await userMigrate(pool)
       await jobMigrate(pool)
+      await applicationMigrate(pool)
     } else if (direction === 'down') {
       await jobDown(pool)
       await userDown(pool)
+      await applicationDown(pool)
+
     } else {
       console.error("Please provide 'up' or 'down' as an argument.")
       return
