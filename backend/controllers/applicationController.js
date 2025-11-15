@@ -1,0 +1,66 @@
+import { findAllApplication, findApplicationById, createApplication, updateApplication, deleteApplication } from "../models/applicationModel.js";
+
+export const getApplication = async (req, res, next) => {
+
+    try {
+        const applications = await findAllApplication()
+        res.json(applications)
+    } catch (err) {
+        next(err)
+    }
+
+}
+
+
+export const getApplicationById = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const application = await findApplicationById(id)
+
+        if (!application) {
+            return res.status(404).json({ err: 'application not found' })
+        }
+
+        res.json(application)
+    } catch (err) {
+        next(err)
+    }
+
+}
+
+
+export const registerApplication = async (req, res, next) => {
+    try {
+        const { user_id, job_id, status, resume_path } = req.body
+
+        const application = await createApplication(user_id, job_id, status, resume_path)
+
+        res.status(200).json(application)
+
+    } catch (err) {
+        next(err)
+    }
+}
+
+export const editApplication = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const { status, resume_path } = req.body
+        const application = await updateApplication(status, resume_path, id)
+        res.json(application)
+    } catch (err) {
+        next(err)
+    }
+}
+
+
+export const removeApplication = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const application = await deleteApplication(id)
+
+        res.json(application)
+    } catch (err) {
+        next(err)
+    }
+}
