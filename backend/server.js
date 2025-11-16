@@ -24,8 +24,10 @@ app.use(express.json())
 
 app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
-app.use('/api/job', jobRoutes)
-app.use('/api/application', applicationRoutes)
+app.use('/api/jobs', jobRoutes)
+app.use('/api/applications', applicationRoutes)
+app.use('/uploads', express.static('uploads'));
+
 
 app.use(errorHandler)
 

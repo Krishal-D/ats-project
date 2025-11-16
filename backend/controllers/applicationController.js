@@ -31,7 +31,9 @@ export const getApplicationById = async (req, res, next) => {
 
 export const registerApplication = async (req, res, next) => {
     try {
-        const { user_id, job_id, status, resume_path } = req.body
+        const { user_id, job_id, status } = req.body
+
+        const resume_path = req.file ? req.file.path : undefined;
 
         const application = await createApplication(user_id, job_id, status, resume_path)
 
@@ -45,7 +47,9 @@ export const registerApplication = async (req, res, next) => {
 export const editApplication = async (req, res, next) => {
     try {
         const { id } = req.params
-        const { status, resume_path } = req.body
+        const { status } = req.body
+        const resume_path = req.file ? req.file.path : undefined;
+
         const application = await updateApplication(status, resume_path, id)
         res.json(application)
     } catch (err) {
