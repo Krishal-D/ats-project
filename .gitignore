@@ -23,3 +23,6 @@ Thumbs.db
 
 # React build
 /frontend/build/
+
+# File uploads (resumes etc.)
+backend/uploads/
