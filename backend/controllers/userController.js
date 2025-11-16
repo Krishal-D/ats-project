@@ -50,6 +50,10 @@ export const updateUsers = async (req, res, next) => {
   try {
     const { id } = req.params
     const { name, email, password } = req.body
+
+    const oldUser = await findUserById(id)
+
+
     const hashedPassword = password
       ? await bcrypt.hash(password, SALT_ROUNDS)
       : oldUser.password
