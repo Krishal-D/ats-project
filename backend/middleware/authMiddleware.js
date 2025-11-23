@@ -1,4 +1,4 @@
-import { verifyAccesstoken } from "../config/auth.js";
+import { verifyAccessToken } from "../config/auth.js";
 
 export const authenticate = (req, res, next) => {
     try {
@@ -9,7 +9,7 @@ export const authenticate = (req, res, next) => {
 
         const token = authHeader.split(' ')[1]
 
-        req.user = verifyAccesstoken(token)
+        req.user = verifyAccessToken(token)
         next()
 
     } catch (err) {

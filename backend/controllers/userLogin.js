@@ -1,5 +1,8 @@
 import bcrypt from 'bcrypt'
 import { siginUser } from '../models/userModel.js'
+import { setRefreshToken, removeRefreshToken } from '../models/userModel.js'
+import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../config/auth.js'
+
 
 export const loginUsers = async (req, res, next) => {
   try {
@@ -17,7 +20,84 @@ export const loginUsers = async (req, res, next) => {
       return res.status(401).json({ error: 'Incorrect password' })
     }
 
-    res.json({ id: users.id, name: users.name, email: users.email })
+    const accessToken = generateAccessToken(users)
+    const refreshToken = generateRefreshToken(users)
+
+    await setRefreshToken(refreshToken, users.id)
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      samesite: 'Strict',
+      maxage: 7 * 24 * 60 * 60 * 1000,
+    })
+
+    res.json({
+      token: accessToken,
+      user: { id: users.id, name: users.name, email: users.email }
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+
+export const logOutUsers = async (req, res, next) => {
+
+  try {
+
+    const token = req.cookies?.refreshToken || req.body?.refreshToken
+
+    if (token) {
+      await removeRefreshToken(token)
+    }
+
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'Strict'
+    })
+
+    res.json({ message: 'Logged out' })
+
+  } catch (err) {
+    next(err)
+  }
+
+}
+
+
+export const refreshToken = async (req, res, next) => {
+  try {
+
+    const token = req.cookies?.refreshToken || req.body?.refreshToken
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' })
+    }
+
+    const users = await verifyRefreshToken(token)
+    if (!users) {
+      return res.status(401).json({ error: 'Invalid token' })
+    }
+
+    const newAccessToken = generateAccessToken(users)
+    const newRefreshToken = generateRefreshToken(users)
+
+    await setRefreshToken(newRefreshToken, users.id)
+
+    res.cookie('refreshToken', newRefreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      samesite: 'Strict',
+      maxage: 7 * 24 * 60 * 60 * 1000,
+    })
+
+    res.json({
+      token: newAccessToken,
+      user: { id: users.id, name: users.name, email: users.email }
+    })
+
+
   } catch (err) {
     next(err)
   }
