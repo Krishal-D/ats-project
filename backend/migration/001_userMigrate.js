@@ -1,16 +1,16 @@
 export async function userMigrate(pool) {
   try {
-    await pool.query(`  
-            CREATE TABLE IF NOT EXISTS users(
-            id SERIAL PRIMARY KEY,
-            user_email VARCHAR(100) NOT NULL UNIQUE,
-            user_name VARCHAR(100) NOT NULL,
-            user_password VARCHAR(255) NOT NULL,
-            user_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            user_role varchar(200) NOT NULL DEFAULT 'candidate',
-            refresh_token TEXT 
-        )
-        `)
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users(
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        name VARCHAR(100) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        role VARCHAR(200) NOT NULL DEFAULT 'candidate',
+        refresh_token TEXT
+      )
+    `)
   } catch (err) {
     console.error(err.message)
     throw err
