@@ -52,8 +52,8 @@ export const registerUsers = async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      samesite: 'Strict',
-      maxage: 7 * 24 * 60 * 60 * 1000,
+      sameSite: 'Strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
     res.json({
