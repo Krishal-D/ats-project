@@ -62,14 +62,18 @@ export const setRefreshToken = async (refreshToken, userId) => {
   return result.rows[0]
 }
 
-export const removeRefreshToken = async (refreshToken) => {
-  const result = await pool.query('UPDATE users SET refresh_token = NULL WHERE refresh_token = $1', [refreshToken])
+export const removeRefreshToken = async (id) => {
+  const result = await pool.query('UPDATE users SET refresh_token = NULL WHERE id = $1', [id])
   return result.rows[0]
 
 }
 
-export const checkRefreshToken = async (refreshToken, id) => {
-
-  const result = await pool.query('SELECT refresh_token =$1 FROM users WHERE id = $2', [refreshToken, id])
+export const checkRefreshToken = async (userId, refreshToken) => {
+  const result = await pool.query(
+    `SELECT id, name, email, role
+     FROM users
+     WHERE id = $1 AND refresh_token = $2`,
+    [userId, refreshToken]
+  )
   return result.rows[0]
 }
