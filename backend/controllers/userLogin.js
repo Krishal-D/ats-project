@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { siginUser } from '../models/userModel.js'
 import { setRefreshToken, removeRefreshToken } from '../models/userModel.js'
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../config/auth.js'
+import { findUserById } from '../models/userModel.js'
 
 
 export const loginUsers = async (req, res, next) => {
@@ -28,7 +29,7 @@ export const loginUsers = async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: 'Lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
@@ -43,27 +44,28 @@ export const loginUsers = async (req, res, next) => {
 
 
 export const logOutUsers = async (req, res, next) => {
-
   try {
-
     const token = req.cookies?.refreshToken || req.body?.refreshToken
 
     if (token) {
-      await removeRefreshToken(token)
+      try {
+        const user = await verifyRefreshToken(token)
+        if (user?.id) {
+          await removeRefreshToken(user.id)
+        }
+      } catch (_) {
+      }
     }
 
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict'
+      sameSite: 'Lax'
     })
-
-    res.json({ message: 'Logged out' })
 
   } catch (err) {
     next(err)
   }
-
 }
 
 
@@ -88,7 +90,7 @@ export const refreshToken = async (req, res, next) => {
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: 'Lax', 
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
@@ -98,6 +100,21 @@ export const refreshToken = async (req, res, next) => {
     })
 
 
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const currentUser = async (req, res, next) => {
+  try {
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Not authenticated' })
+    }
+    const user = await findUserById(req.user.id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+    res.json({ id: user.id, name: user.name, email: user.email, role: user.role })
   } catch (err) {
     next(err)
   }
