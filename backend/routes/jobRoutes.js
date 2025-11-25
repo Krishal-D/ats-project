@@ -15,7 +15,7 @@ router.get('/', getJobs)
 router.get('/:id', getJobsById)
 
 router.post('/', authenticate, authorizeRoles('employer'), registerJobs)
-router.post('/:id', authenticate, authorizeRoles('employer'), updateJobs)
+router.put('/:id', authenticate, authorizeRoles('employer'), updateJobs)
 router.delete('/:id', authenticate, authorizeRoles('employer'), deleteJobs)
 
 export default router

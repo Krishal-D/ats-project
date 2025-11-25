@@ -17,7 +17,7 @@ export const verifyRefreshToken = async (token) => {
     try {
         const payload = jwt.verify(token, process.env.JWT_REFRESH_SECRET)
 
-        const user = await checkRefreshToken(token, payload.id)
+        const user = await checkRefreshToken(payload.id, token)
         if (!user) {
             throw new Error('Refresh token not found or revoked')
         }

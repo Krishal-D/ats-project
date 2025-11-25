@@ -51,11 +51,11 @@ export const registerUsers = async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Lax', 
+      sameSite: 'Lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
-    res.json({
+    res.status(201).json({
       token: accessToken,
       user: { id: users.id, name: users.name, email: users.email }
     })
@@ -70,8 +70,14 @@ export const updateUsers = async (req, res, next) => {
     const { id } = req.params
     const { name, email, password } = req.body
 
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required' })
+    }
+
     const oldUser = await findUserById(id)
     if (!oldUser) return res.status(404).json({ error: 'User not found' })
+
+
 
     const hashedPassword = password
       ? await bcrypt.hash(password, SALT_ROUNDS)

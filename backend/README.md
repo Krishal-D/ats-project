@@ -48,7 +48,7 @@ The backend uses short-lived Access Tokens (Authorization header) and long-lived
 | Type | Location | Lifetime | Purpose |
 |------|----------|----------|---------|
 | Access | `Authorization: Bearer <token>` | ~15 minutes | Authenticate protected API requests |
-| Refresh | `refreshToken` cookie (HttpOnly, SameSite=Strict) | ~7 days | Obtain new access & refresh tokens |
+| Refresh | `refreshToken` cookie (HttpOnly, SameSite=Lax) | ~7 days | Obtain new access & refresh tokens |
 
 ### Core Helpers (config/auth.js)
 - `generateAccessToken(user)` – Signs `{ id, role }` with `JWT_SECRET`.
@@ -59,7 +59,7 @@ The backend uses short-lived Access Tokens (Authorization header) and long-lived
 ### Persistence (models/userModel.js)
 - `setRefreshToken(refreshToken, userId)` – Stores the latest refresh token for the user (single active token strategy).
 - `removeRefreshToken(userId)` – Revokes refresh token on logout.
-- `checkRefreshToken(refreshToken, userId)` – Confirms the presented refresh token matches what is stored.
+- `checkRefreshToken(userId, refreshToken)` – Confirms the presented refresh token matches what is stored.
 
 ### Endpoint Sequence
 1. Register (`POST /api/auth/register`)
@@ -93,7 +93,7 @@ authorizeRoles('employer') // role gate
 
 ### Security Notes
 - Access token is short-lived; compromise window is minimized.
-- Refresh token is HttpOnly and SameSite=Strict (adjust to `None` + `Secure` if cross-site frontend is used).
+- Refresh token is HttpOnly and SameSite=Lax (adjust to `None` + `Secure` if cross-site frontend is used).
 - Single active refresh token per user mitigates session sprawl.
 - Secrets must be long random strings in production (do NOT reuse dev values).
 
