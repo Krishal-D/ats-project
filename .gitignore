@@ -24,5 +24,5 @@ Thumbs.db
 # React build
 /frontend/build/
 
-# File uploads (resumes etc.)
+# File uploads (resume storage - ignore runtime artifacts)
 backend/uploads/
