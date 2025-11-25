@@ -5,7 +5,6 @@ import {
   removeUser,
   findAllUsers,
 } from '../models/userModel.js'
-
 import { generateAccessToken, generateRefreshToken } from '../config/auth.js'
 import bcrypt from 'bcrypt'
 import { setRefreshToken } from '../models/userModel.js'
@@ -52,7 +51,7 @@ export const registerUsers = async (req, res, next) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'Strict',
+      sameSite: 'Lax', 
       maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
