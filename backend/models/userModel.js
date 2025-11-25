@@ -56,3 +56,24 @@ export const siginUser = async (email) => {
   const result = await pool.query(`SELECT * FROM users WHERE email=$1`, [email])
   return result.rows[0]
 }
+
+export const setRefreshToken = async (refreshToken, userId) => {
+  const result = await pool.query(`UPDATE users SET refresh_token =$1 WHERE id =$2`, [refreshToken, userId])
+  return result.rows[0]
+}
+
+export const removeRefreshToken = async (id) => {
+  const result = await pool.query('UPDATE users SET refresh_token = NULL WHERE id = $1', [id])
+  return result.rows[0]
+
+}
+
+export const checkRefreshToken = async (userId, refreshToken) => {
+  const result = await pool.query(
+    `SELECT id, name, email, role
+     FROM users
+     WHERE id = $1 AND refresh_token = $2`,
+    [userId, refreshToken]
+  )
+  return result.rows[0]
+}
