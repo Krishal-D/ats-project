@@ -6,11 +6,13 @@ import {
   deleteUsers,
 } from '../controllers/userController.js'
 
+import { authenticate, authorizeRoles } from '../middleware/authMiddleware.js'
+
 const router = express.Router()
 
-router.get('/', getUsers)
-router.get('/:id', getUserById)
-router.put('/:id', updateUsers)
-router.delete('/:id', deleteUsers)
+router.get('/', authenticate, authorizeRoles("admin"), getUsers)
+router.get('/:id', authenticate, getUserById)
+router.put('/:id', authenticate, updateUsers)
+router.delete('/:id', authenticate, authorizeRoles("admin"), deleteUsers)
 
 export default router
