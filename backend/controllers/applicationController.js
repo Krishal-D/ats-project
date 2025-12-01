@@ -1,4 +1,4 @@
-import { findAllApplication, findApplicationById, createApplication, updateApplication, deleteApplication } from "../models/applicationModel.js";
+import { findAllApplication, findApplicationById, createApplication, updateApplication, deleteApplication, findApplicationByUserId } from "../models/applicationModel.js";
 
 export const getApplication = async (req, res, next) => {
 
@@ -10,7 +10,6 @@ export const getApplication = async (req, res, next) => {
     }
 
 }
-
 
 export const getApplicationById = async (req, res, next) => {
     try {
@@ -62,6 +61,18 @@ export const removeApplication = async (req, res, next) => {
     try {
         const { id } = req.params
         const application = await deleteApplication(id)
+
+        res.json(application)
+    } catch (err) {
+        next(err)
+    }
+}
+
+
+export const getApplicationByUserId = async (req, res) => {
+    try {
+        const { user_id } = req.user.id
+        const application = await findApplicationByUserId(user_id)
 
         res.json(application)
     } catch (err) {

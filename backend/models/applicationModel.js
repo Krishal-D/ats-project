@@ -75,3 +75,23 @@ export const updateApplication = async (status, resume_path, id) => {
 
     return result.rows[0]
 }
+
+
+export const findApplicationByUserId = async (user_id) => {
+    const result = await pool.query(`
+        SELECT 
+        u.name as user_name,
+        u.email as user_email,
+        j.title as job_title,
+        a.status,
+        a.created_at,
+        a.id as applicant_id
+        FROM applications a
+        LEFT JOIN users u ON a.user_id = u.id
+        LEFT JOIN jobs j ON a.job_id = j.id
+        WHERE a.user_id =$1
+        ORDER BY a.created_at DESC
+    `, [user_id])
+
+    return result.rows[0]
+}

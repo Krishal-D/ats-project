@@ -15,7 +15,7 @@ export function Details() {
 
 
     const getDetails = async () => {
-        const res = await fetch(`http://localhost:5000/api/job/${id}`)
+        const res = await fetch(`http://localhost:5000/api/jobs/${id}`)
         const details = await res.json()
         setData(Array.isArray(details) ? details[0] : details);
 

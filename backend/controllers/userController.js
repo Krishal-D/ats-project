@@ -38,10 +38,10 @@ export const getUserById = async (req, res, next) => {
 
 export const registerUsers = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body
+    const { name, email, password, role } = req.body
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
 
-    const users = await createUser(name, email, hashedPassword)
+    const users = await createUser(name, email, hashedPassword, role)
 
     const accessToken = generateAccessToken(users)
     const refreshToken = generateRefreshToken(users)
@@ -57,7 +57,7 @@ export const registerUsers = async (req, res, next) => {
 
     res.status(201).json({
       token: accessToken,
-      user: { id: users.id, name: users.name, email: users.email }
+      user: { id: users.id, name: users.name, email: users.email, role: users.role }
     })
 
   } catch (err) {

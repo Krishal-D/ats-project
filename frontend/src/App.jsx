@@ -4,6 +4,7 @@ import { Register } from './pages/register'
 import { JobList } from './components/jobList'
 import { PostJob } from './pages/addJobForm'
 import { Details } from './components/jobDetails'
+import { Apply } from './components/applicationForm'
 
 export default function App() {
   return (
@@ -21,6 +22,8 @@ export default function App() {
           <Route path="/jobForm" element={<PostJob />} />
 
           <Route path='/jobDetails/:id' element={<Details />} />
+
+          <Route path='/apply' element={<Apply />} />
         </Routes>
       </BrowserRouter>
     </>
