@@ -35,7 +35,7 @@ export const loginUsers = async (req, res, next) => {
 
     res.json({
       token: accessToken,
-      user: { id: users.id, name: users.name, email: users.email }
+      user: { id: users.id, name: users.name, email: users.email, role: users.role }
     })
   } catch (err) {
     next(err)
@@ -98,25 +98,10 @@ export const refreshToken = async (req, res, next) => {
 
     res.json({
       token: newAccessToken,
-      user: { id: users.id, name: users.name, email: users.email }
+      user: { id: users.id, name: users.name, email: users.email, role: users.role }
     })
 
 
-  } catch (err) {
-    next(err)
-  }
-}
-
-export const currentUser = async (req, res, next) => {
-  try {
-    if (!req.user?.id) {
-      return res.status(401).json({ error: 'Not authenticated' })
-    }
-    const user = await findUserById(req.user.id)
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' })
-    }
-    res.json({ id: user.id, name: user.name, email: user.email, role: user.role })
   } catch (err) {
     next(err)
   }
