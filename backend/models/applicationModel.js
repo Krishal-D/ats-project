@@ -38,7 +38,7 @@ export const findApplicationById = async (id) => {
     return result.rows[0]
 }
 
-export const createApplication = async (user_id, job_id, status, resume_path) => {
+export const createApplication = async (user_id, job_id, status, cover_letter, resume_path) => {
 
     const userCheck = await pool.query(`SELECT id FROM users WHERE id=$1`, [user_id])
     const jobCheck = await pool.query(`SELECT id FROM jobs WHERE id=$1`, [job_id])
@@ -53,8 +53,8 @@ export const createApplication = async (user_id, job_id, status, resume_path) =>
 
 
     const result = await pool.query(`
-        INSERT INTO applications (user_id,job_id,status,resume_path) VALUES ($1,$2,$3,$4) RETURNING *
-    `, [user_id, job_id, status, resume_path])
+        INSERT INTO applications (user_id,job_id,status,cover_letter,resume_path) VALUES ($1,$2,$3,$4,$5) RETURNING *
+    `, [user_id, job_id, status, cover_letter, resume_path])
 
     return result.rows[0]
 }
