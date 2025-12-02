@@ -89,7 +89,15 @@ textarea::placeholder {
     font-size: 0.8rem;
 }
 
-/* Checkbox */
+input[readonly],
+select[readonly],
+textarea[readonly] {
+    background-color: #f9fafb;
+    border: 2px dashed #d1d5db;
+    color: #374151;
+    cursor: not-allowed;
+}
+
 input[type='checkbox'] {
     width: 1rem;
     height: 1rem;

@@ -1,5 +1,6 @@
 import React from "react"
 import '../styles/form.css'
+import styles from '../styles/addJobForm.module.css'
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/authContext";
 
@@ -99,9 +100,12 @@ export function Apply() {
 
     return (
 
-        <main className="applicationForm">
-            <h1>Apply for {jobData.title || 'Position'}</h1>
-            <p>Complete the form below to submit your application</p>
+        <main className={styles.postContainer}>
+            <section className={styles.header}>
+                <h3>Apply for {jobData.title || 'Position'}</h3>
+                <p className={styles.headMessage}>Complete the form below to submit your application</p>
+            </section>
+
             <section className="formCard">
                 <h3>Application Form</h3>
                 <form method="post" className="formBody" onSubmit={handleSubmit}>
@@ -114,7 +118,6 @@ export function Apply() {
                         id="user_name"
                         name="user_name"
                         readOnly
-                        style={{ backgroundColor: '#f5f5f5' }}
                     />
 
                     <label htmlFor="user_email">Email</label>
@@ -124,7 +127,6 @@ export function Apply() {
                         id="user_email"
                         name="user_email"
                         readOnly
-                        style={{ backgroundColor: '#f5f5f5' }}
                     />
 
                     <label htmlFor="jobTitle">Job Title</label>
@@ -134,7 +136,6 @@ export function Apply() {
                         id="jobTitle"
                         name="jobTitle"
                         readOnly
-                        style={{ backgroundColor: '#f5f5f5' }}
                     />
 
                     <label htmlFor="cover_letter">Cover Letter*</label>
