@@ -30,11 +30,11 @@ export const getApplicationById = async (req, res, next) => {
 
 export const registerApplication = async (req, res, next) => {
     try {
-        const { user_id, job_id, status } = req.body
+        const { user_id, job_id, status, cover_letter } = req.body
 
         const resume_path = req.file ? req.file.path : undefined;
 
-        const application = await createApplication(user_id, job_id, status, resume_path)
+        const application = await createApplication(user_id, job_id, status, cover_letter, resume_path)
 
         res.status(200).json(application)
 
