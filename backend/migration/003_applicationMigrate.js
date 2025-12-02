@@ -6,6 +6,7 @@ export async function applicationMigrate(pool) {
             user_id INT REFERENCES users(id) ON DELETE CASCADE,
             job_id INT REFERENCES jobs(id) ON DELETE CASCADE,
             status TEXT DEFAULT 'pending',
+            cover_letter TEXT,
             resume_path TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )`)
