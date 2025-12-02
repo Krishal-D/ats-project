@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     React.useEffect(() => {
-        // Try to refresh token on app startup
         refreshAccessToken().finally(() => setLoading(false))
     }, [])
 
