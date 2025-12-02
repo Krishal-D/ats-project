@@ -5,6 +5,7 @@ import { JobList } from './components/jobList'
 import { PostJob } from './pages/addJobForm'
 import { Details } from './components/jobDetails'
 import { Apply } from './components/applicationForm'
+import ProtectedRoute from './auth/protectedRoutes'
 
 export default function App() {
   return (
@@ -19,11 +20,19 @@ export default function App() {
 
           <Route path="/jobList" element={<JobList />} />
 
-          <Route path="/jobForm" element={<PostJob />} />
+          <Route path="/jobForm" element={
+            <ProtectedRoute>
+              <PostJob />
+            </ProtectedRoute>
+          } />
 
           <Route path='/jobDetails/:id' element={<Details />} />
 
-          <Route path='/apply' element={<Apply />} />
+          <Route path='/apply/:id' element={
+            <ProtectedRoute>
+              <Apply />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
     </>
