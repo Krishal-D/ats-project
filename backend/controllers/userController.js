@@ -30,7 +30,7 @@ export const getUserById = async (req, res, next) => {
       return res.status(404).json({ error: 'User not found' })
     }
 
-    res.json({ id: users.id, name: users.name, email: users.email })
+    res.json({ id: users.id, name: users.name, email: users.email, role: users.role })
   } catch (err) {
     next(err)
   }

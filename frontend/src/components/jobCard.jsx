@@ -20,6 +20,10 @@ export function JobCard({ details }) {
     navigate(`/jobDetails/${id}`)
   }
 
+  function applyJob(id) {
+    navigate(`/apply/${id}`)
+  }
+
   return (
     <div className="container">
       <main className="jobBox">
@@ -65,7 +69,7 @@ export function JobCard({ details }) {
           <button className='viewDetails' type='button' onClick={() => viewDetails(details.id)}>
             View Details
           </button>
-          <button className="applyButton" type="submit">
+          <button className="applyButton" type="submit" onClick={() => applyJob(details.id)}>
             Apply now
           </button>
         </section>

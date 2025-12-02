@@ -1,7 +1,9 @@
 import "../styles/form.css"
 import styles from "../styles/addJobForm.module.css"
 import React from "react"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../auth/authContext"
+
 
 export function PostJob() {
 
@@ -17,7 +19,9 @@ export function PostJob() {
         responsibility: "",
         benefits: "",
         tech_stack: "",
-    };
+    }
+
+    const { accessToken, refreshAccessToken } = useAuth()
 
 
     const [error, setError] = React.useState({})
@@ -113,37 +117,51 @@ export function PostJob() {
     const formattedForm = {
         ...form,
 
-        // Convert comma-separated skills into an array
         tech_stack: form.tech_stack
             ? form.tech_stack.split(",").map(s => s.trim()).filter(Boolean)
             : [],
 
-        // Convert each line of requirements into an array
         requirements: form.requirements
             ? form.requirements.split("\n").map(s => s.trim()).filter(Boolean)
             : [],
 
-        // Convert each line of responsibilities into an array
         responsibility: form.responsibility
             ? form.responsibility.split("\n").map(s => s.trim()).filter(Boolean)
             : [],
 
-        // Convert each line of benefits into an array
         benefits: form.benefits
             ? form.benefits.split("\n").map(s => s.trim()).filter(Boolean)
             : [],
-    };
+    }
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
-            const res = await fetch(`http://localhost:5000/api/jobs`, {
+            let res = await fetch(`http://localhost:5000/api/jobs`, {
                 method: "POST",
-                headers: { 'Content-type': 'application/json' },
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${accessToken}`
+                },
                 body: JSON.stringify(formattedForm)
             })
+
+            if (res.status === 401) {
+                const newToken = await refreshAccessToken();
+                if (newToken) {
+                    res = await fetch("http://localhost:5000/api/jobs", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${newToken}`
+                        },
+                        body: JSON.stringify(formattedForm),
+                        credentials: "include",
+                    })
+                }
+            }
 
             const details = await res.json()
             console.log(details)
@@ -269,7 +287,7 @@ export function PostJob() {
                                 required
                             />
                         </div>
-                        <span className="error">{error.salary}</span>
+                        {error.salary && <p className="error">{error.salary}</p>}
 
                     </div>
 
