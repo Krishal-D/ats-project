@@ -21,7 +21,7 @@ export function PostJob() {
         tech_stack: "",
     }
 
-    const { accessToken, refreshAccessToken } = useAuth()
+    const { user, accessToken, refreshAccessToken } = useAuth()
 
 
     const [error, setError] = React.useState({})
@@ -138,6 +138,11 @@ export function PostJob() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        if (user.role !== "employer") {
+            alert('Only employers can post jobs')
+            return
+        }
+
         try {
             let res = await fetch(`http://localhost:5000/api/jobs`, {
                 method: "POST",
@@ -207,7 +212,6 @@ export function PostJob() {
                 </p>
 
                 <form method="POST" className={`formBody ${styles.formBody}`}>
-                    {/* Row: Job Title + Company */}
                     <div className={styles.rowTwo}>
                         <div className={styles.field}>
                             <label htmlFor="title">Job Title*</label>
@@ -242,7 +246,6 @@ export function PostJob() {
 
                     </div>
 
-                    {/* Row: Location + Job Type + Salary */}
                     <div className={styles.rowThree}>
                         <div className={styles.field}>
                             <label htmlFor="location">Location*</label>

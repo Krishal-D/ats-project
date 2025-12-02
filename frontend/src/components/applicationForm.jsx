@@ -45,14 +45,6 @@ export function Apply() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (!user || !accessToken) {
-            alert('Please login to apply for jobs')
-            navigate('/login')
-            return
-        }
-
-
-
         if (user.role !== "candidate") {
             alert('Only candidates can apply for jobs')
             return
