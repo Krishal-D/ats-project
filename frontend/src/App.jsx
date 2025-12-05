@@ -6,6 +6,7 @@ import { PostJob } from './pages/addJobForm'
 import { Details } from './components/jobDetails'
 import { Apply } from './components/applicationForm'
 import ProtectedRoute from './auth/protectedRoutes'
+import { Dashboard } from './pages/dashboard'
 
 export default function App() {
   return (
@@ -33,6 +34,8 @@ export default function App() {
               <Apply />
             </ProtectedRoute>
           } />
+
+          <Route path='/dashBoard' element={<Dashboard />} />
         </Routes>
       </BrowserRouter>
     </>
