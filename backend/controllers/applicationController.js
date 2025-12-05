@@ -69,12 +69,12 @@ export const removeApplication = async (req, res, next) => {
 }
 
 
-export const getApplicationByUserId = async (req, res) => {
+export const getApplicationByUserId = async (req, res, next) => {
     try {
-        const { user_id } = req.user.id
-        const application = await findApplicationByUserId(user_id)
+        const user_id = req.user.id
+        const applications = await findApplicationByUserId(user_id)
 
-        res.json(application)
+        res.json(applications)
     } catch (err) {
         next(err)
     }
