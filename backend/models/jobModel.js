@@ -10,6 +10,12 @@ export const findJobById = async (id) => {
   return result.rows[0]
 }
 
+export const findJobsByRecruiterId = async (recruiter_id) => {
+  const result = await pool.query(`SELECT * FROM jobs WHERE recruiter_id = $1  `, [recruiter_id])
+  return result.rows;
+}
+
+
 export const createJobs = async (
   title,
   company,
