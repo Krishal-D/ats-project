@@ -96,3 +96,23 @@ export const findApplicationByUserId = async (user_id) => {
 
     return result.rows
 }
+
+export const findUserByJobId = async (job_id) => {
+    const result = await pool.query(`
+        SELECT 
+        a.id as applicant_id,
+        u.name as user_name,
+        u.email as user_email,
+        j.title as job_title,
+        j.company,
+        a.status,
+        a.created_at
+        FROM applications a
+        LEFT JOIN users u ON a.user_id = u.id
+        LEFT JOIN jobs j ON a.job_id = j.id
+        WHERE a.job_id = $1
+        ORDER BY a.created_at DESC
+    `, [job_id])
+
+    return result.rows
+}
