@@ -6,7 +6,8 @@ import { PostJob } from './pages/addJobForm'
 import { Details } from './components/jobDetails'
 import { Apply } from './components/applicationForm'
 import ProtectedRoute from './auth/protectedRoutes'
-import { Dashboard } from './pages/dashboard'
+import { CandidateDashboard } from './pages/candidateDashboard'
+import { RecruiterDashboard } from './pages/recruiterDashboard'
 
 export default function App() {
   return (
@@ -35,7 +36,17 @@ export default function App() {
             </ProtectedRoute>
           } />
 
-          <Route path='/dashBoard' element={<Dashboard />} />
+          <Route path='/candidateDashboard' element={
+            <ProtectedRoute>
+              <CandidateDashboard />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/recruiterDashboard' element={
+            <ProtectedRoute>
+              <RecruiterDashboard />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
     </>
