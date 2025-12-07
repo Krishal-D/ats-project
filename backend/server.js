@@ -2,15 +2,14 @@ import express from 'express'
 import dotenv from 'dotenv'
 import userRoutes from './routes/userRoutes.js'
 import jobRoutes from './routes/jobRoutes.js'
-import applicationRoutes from './routes/applicationRoutes.js'
 import { errorHandler } from './middleware/errorHandling.js'
 import authRoutes from './routes/authRoutes.js'
+import applicationRoutes from './routes/applicationRoutes.js'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 dotenv.config()
 
-// Fail fast if required secrets are missing
 const requiredEnv = ['JWT_SECRET', 'JWT_REFRESH_SECRET']
 const missing = requiredEnv.filter((k) => !process.env[k] || process.env[k].trim() === '')
 if (missing.length) {
@@ -36,8 +35,6 @@ app.use('/api/users', userRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/jobs', jobRoutes)
 app.use('/api/applications', applicationRoutes)
-app.use('/uploads', express.static('uploads'));
-
 
 app.use(errorHandler)
 

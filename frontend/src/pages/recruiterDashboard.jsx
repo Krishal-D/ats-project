@@ -55,7 +55,7 @@ export function RecruiterDashboard() {
                 }
 
                 const fetchCandidates = async () => {
-                    let res = await fetch(`http://localhost:5000/api/application`, {
+                    let res = await fetch(`http://localhost:5000/api/applications`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
@@ -66,7 +66,7 @@ export function RecruiterDashboard() {
                     if (res.status === 401) {
                         const newToken = await refreshAccessToken()
                         if (newToken) {
-                            res = await fetch(`http://localhost:5000/api/application`, {
+                            res = await fetch(`http://localhost:5000/api/applications`, {
                                 method: 'GET',
                                 credentials: 'include',
                                 headers: {
@@ -97,7 +97,7 @@ export function RecruiterDashboard() {
 
     const handleStatusChange = async (applicationId, newStatus) => {
         try {
-            let res = await fetch(`http://localhost:5000/api/application/${applicationId}/status`, {
+            let res = await fetch(`http://localhost:5000/api/applications/${applicationId}/status`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
@@ -110,7 +110,7 @@ export function RecruiterDashboard() {
             if (res.status === 401) {
                 const newToken = await refreshAccessToken()
                 if (newToken) {
-                    res = await fetch(`http://localhost:5000/api/application/${applicationId}/status`, {
+                    res = await fetch(`http://localhost:5000/api/applications/${applicationId}/status`, {
                         method: 'PUT',
                         credentials: 'include',
                         headers: {
