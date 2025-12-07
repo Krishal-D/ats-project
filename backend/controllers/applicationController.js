@@ -1,4 +1,4 @@
-import { findAllApplication, findApplicationById, createApplication, updateApplication, deleteApplication, findApplicationByUserId, findUserByJobId } from "../models/applicationModel.js";
+import { findAllApplication, findApplicationById, createApplication, updateApplicationStatus, updateResume, deleteApplication, findApplicationByUserId, findUserByJobId } from "../models/applicationModel.js";
 
 export const getApplication = async (req, res, next) => {
 
@@ -43,18 +43,30 @@ export const registerApplication = async (req, res, next) => {
     }
 }
 
-export const editApplication = async (req, res, next) => {
+export const editApplicationStatus = async (req, res, next) => {
     try {
         const { id } = req.params
         const { status } = req.body
-        const resume_path = req.file ? req.file.path : undefined;
 
-        const application = await updateApplication(status, resume_path, id)
+        const application = await updateApplicationStatus(status, id)
         res.json(application)
     } catch (err) {
         next(err)
     }
 }
+
+
+export const editResume = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const resume_path = req.file ? req.file.path : undefined;
+        const application = await updateResume(resume_path, id)
+        res.json(application)
+    } catch (err) {
+        next(err)
+    }
+}
+
 
 
 export const removeApplication = async (req, res, next) => {

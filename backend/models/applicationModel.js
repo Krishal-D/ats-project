@@ -68,10 +68,18 @@ export const deleteApplication = async (id) => {
 }
 
 
-export const updateApplication = async (status, resume_path, id) => {
+export const updateApplicationStatus = async (status, id) => {
     const result = await pool.query(`
-        UPDATE applications SET status=$1, resume_path=$2 WHERE id=$3 RETURNING *
-    `, [status, resume_path, id])
+        UPDATE applications SET status=$1 WHERE id=$2 RETURNING *
+    `, [status, id])
+
+    return result.rows[0]
+}
+
+export const updateResume = async (resume_path, id) => {
+    const result = await pool.query(`
+        UPDATE applications SET resume_path=$1 WHERE id=$2 RETURNING *
+    `, [resume_path, id])
 
     return result.rows[0]
 }
