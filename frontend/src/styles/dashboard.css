@@ -304,3 +304,56 @@
     color: #888;
     margin-top: 8px;
 }
+
+/* Status dropdown section */
+.statusSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.statusSection label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.statusSelect {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 2px solid #e5e7eb;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.statusSelect:focus {
+    outline: none;
+    border-color: #0ea5e9;
+}
+
+.statusSelect.pending {
+    background-color: #fef3c7;
+    color: #d97706;
+    border-color: #fcd34d;
+}
+
+.statusSelect.reviewed {
+    background-color: #dbeafe;
+    color: #2563eb;
+    border-color: #93c5fd;
+}
+
+.statusSelect.shortlisted {
+    background-color: #d1fae5;
+    color: #059669;
+    border-color: #6ee7b7;
+}
+
+.statusSelect.rejected {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}

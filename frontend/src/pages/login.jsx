@@ -12,7 +12,7 @@ export function Login() {
     navigate('/register')
   }
 
-  const { login, refreshAccessToken, accessToken } = useAuth();
+  const { login } = useAuth();
 
 
   const [form, setForm] = React.useState({

@@ -26,7 +26,6 @@ export function RecruiterDashboard() {
             if (!user || !accessToken) return
 
             try {
-                // Fetch recruiter's jobs
                 const fetchMyJobs = async () => {
                     let res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
                         method: 'GET',
@@ -55,9 +54,8 @@ export function RecruiterDashboard() {
                     }
                 }
 
-                // Fetch candidates who applied to recruiter's jobs
                 const fetchCandidates = async () => {
-                    let res = await fetch(`http://localhost:5000/api/applications`, {
+                    let res = await fetch(`http://localhost:5000/api/application`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
@@ -68,7 +66,7 @@ export function RecruiterDashboard() {
                     if (res.status === 401) {
                         const newToken = await refreshAccessToken()
                         if (newToken) {
-                            res = await fetch(`http://localhost:5000/api/applications`, {
+                            res = await fetch(`http://localhost:5000/api/application`, {
                                 method: 'GET',
                                 credentials: 'include',
                                 headers: {
@@ -96,6 +94,51 @@ export function RecruiterDashboard() {
     function postNewJob() {
         navigate(`/addJob`)
     }
+
+    const handleStatusChange = async (applicationId, newStatus) => {
+        try {
+            let res = await fetch(`http://localhost:5000/api/application/${applicationId}/status`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ status: newStatus })
+            })
+
+            if (res.status === 401) {
+                const newToken = await refreshAccessToken()
+                if (newToken) {
+                    res = await fetch(`http://localhost:5000/api/application/${applicationId}/status`, {
+                        method: 'PUT',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${newToken}`
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    })
+                }
+            }
+
+            if (res.ok) {
+                setCandidates(prevCandidates =>
+                    prevCandidates.map(app =>
+                        app.applicant_id === applicationId
+                            ? { ...app, status: newStatus }
+                            : app
+                    )
+                )
+            } else {
+                console.error('Failed to update status')
+            }
+        } catch (error) {
+            console.error('Error updating status:', error)
+        }
+    }
+
+
 
     return (
         <main className="dashboardContainer">
@@ -176,9 +219,20 @@ export function RecruiterDashboard() {
                                     <h4>{application.user_name}</h4>
                                     <p><strong>Applied for:</strong> {application.job_title}</p>
                                     <p><strong>Email:</strong> {application.user_email}</p>
-                                    <span className={`status ${application.status}`}>
-                                        {application.status}
-                                    </span>
+                                    <div className='statusSection'>
+                                        <label htmlFor={`status-${application.applicant_id}`}>Status: </label>
+                                        <select
+                                            id={`status-${application.applicant_id}`}
+                                            value={application.status}
+                                            onChange={(e) => handleStatusChange(application.applicant_id, e.target.value)}
+                                            className={`statusSelect ${application.status}`}
+                                        >
+                                            <option value="pending">Pending</option>
+                                            <option value="reviewed">Reviewed</option>
+                                            <option value="shortlisted">Shortlisted</option>
+                                            <option value="rejected">Rejected</option>
+                                        </select>
+                                    </div>
                                     <p className='appliedDate'>
                                         Applied: {new Date(application.created_at).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' })}
                                     </p>
