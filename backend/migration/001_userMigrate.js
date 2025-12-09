@@ -8,7 +8,11 @@ export async function userMigrate(pool) {
         password VARCHAR(255) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         role VARCHAR(200) NOT NULL DEFAULT 'candidate',
-        refresh_token TEXT
+        refresh_token TEXT,
+        profile_pic TEXT,
+        bio TEXT,
+        location VARCHAR(200),
+        phone VARCHAR(20)
       )
     `)
   } catch (err) {

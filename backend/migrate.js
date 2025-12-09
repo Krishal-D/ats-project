@@ -10,9 +10,9 @@ async function runMigrations(direction) {
       await jobMigrate(pool)
       await applicationMigrate(pool)
     } else if (direction === 'down') {
+      await applicationDown(pool)
       await jobDown(pool)
       await userDown(pool)
-      await applicationDown(pool)
 
     } else {
       console.error("Please provide 'up' or 'down' as an argument.")
