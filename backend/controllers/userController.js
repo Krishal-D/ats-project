@@ -4,6 +4,7 @@ import {
   editUser,
   removeUser,
   findAllUsers,
+  updateUserProfile
 } from '../models/userModel.js'
 import { generateAccessToken, generateRefreshToken } from '../config/auth.js'
 import bcrypt from 'bcrypt'
@@ -104,3 +105,61 @@ export const deleteUsers = async (req, res, next) => {
   }
 }
 
+
+export const getMyProfile = async (req, res, next) => {
+  try {
+    const id = req.user.id
+    const user = await findUserById(id)
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      profile_pic: user.profile_pic,
+      bio: user.bio,
+      location: user.location,
+      phone: user.phone
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const updateMyProfile = async (req, res, next) => {
+  try {
+    const id = req.user.id
+    const { bio, location, phone } = req.body
+    const profile_pic = req.file ? req.file.path : null
+
+    const user = await findUserById(id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+
+    const updatedUser = await updateUserProfile(
+      id,
+      profile_pic || user.profile_pic,
+      bio || user.bio,
+      location || user.location,
+      phone || user.phone
+    )
+
+    res.json({
+      id: updatedUser.id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      role: updatedUser.role,
+      profile_pic: updatedUser.profile_pic,
+      bio: updatedUser.bio,
+      location: updatedUser.location,
+      phone: updatedUser.phone
+    })
+  } catch (err) {
+    next(err)
+  }
+}

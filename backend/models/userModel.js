@@ -77,3 +77,14 @@ export const checkRefreshToken = async (userId, refreshToken) => {
   )
   return result.rows[0]
 }
+
+export const updateUserProfile = async (id, profile_pic, bio, location, phone) => {
+  const result = await pool.query(
+    `UPDATE users 
+     SET profile_pic = $1, bio = $2, location = $3, phone = $4 
+     WHERE id = $5 
+     RETURNING id, name, email, role, profile_pic, bio, location, phone`,
+    [profile_pic, bio, location, phone, id]
+  )
+  return result.rows[0]
+}
