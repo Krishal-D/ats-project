@@ -4,17 +4,22 @@ import {
   getUserById,
   updateUsers,
   deleteUsers,
+  getMyProfile,
+  updateMyProfile
 } from '../controllers/userController.js'
 
 import { authenticate, authorizeRoles } from '../middleware/authMiddleware.js'
+import profileUpload from '../middleware/profileUpload.js'
+
 
 const router = express.Router()
 
-// Admin only routes
 router.get('/', authenticate, authorizeRoles("admin"), getUsers)
 router.delete('/:id', authenticate, authorizeRoles("admin"), deleteUsers)
 
-// User profile routes - users can view and update their own profiles
+router.get('/profile', authenticate, getMyProfile)
+router.put('/profile', authenticate, profileUpload.single('profile_pic'), updateMyProfile)
+
 router.get('/:id', authenticate, getUserById)
 router.put('/:id', authenticate, updateUsers)
 
