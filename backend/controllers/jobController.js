@@ -52,6 +52,8 @@ export const registerJobs = async (req, res, next) => {
       benefits
     } = req.body
 
+    const recruiter_id = req.user.id
+
     const jobs = await createJobs(
       title,
       company,
@@ -62,7 +64,8 @@ export const registerJobs = async (req, res, next) => {
       tech_stack,
       requirements,
       responsibility,
-      benefits
+      benefits,
+      recruiter_id
     )
     res.status(200).json(jobs)
   } catch (err) {
