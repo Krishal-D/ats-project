@@ -84,7 +84,7 @@ export function Apply() {
 
             if (res.ok) {
                 alert('Application submitted successfully!')
-                navigate('/dashBoard')
+                navigate('/candidateDashboard')
             } else {
                 const error = await res.json()
                 console.error('Submission error:', error)
