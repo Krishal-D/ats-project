@@ -1,5 +1,4 @@
 import { findAllApplication, findApplicationById, createApplication, updateApplicationStatus, updateResume, deleteApplication, findApplicationByUserId, findUserByJobId } from "../models/applicationModel.js";
-import { ApiError } from "../utils/apiError.js";
 
 export const getApplication = async (req, res, next) => {
 
@@ -18,7 +17,7 @@ export const getApplicationById = async (req, res, next) => {
         const application = await findApplicationById(id)
 
         if (!application) {
-            return next(new ApiError(404, 'APPLICATION_NOT_FOUND', 'Application not found'))
+            return res.status(404).json({ err: 'application not found' })
         }
 
         res.json(application)
@@ -50,10 +49,6 @@ export const editApplicationStatus = async (req, res, next) => {
         const { status } = req.body
 
         const application = await updateApplicationStatus(status, id)
-        if (!application) {
-            return next(new ApiError(404, 'APPLICATION_NOT_FOUND', 'Application not found'))
-        }
-
         res.json(application)
     } catch (err) {
         next(err)
@@ -66,10 +61,6 @@ export const editResume = async (req, res, next) => {
         const { id } = req.params
         const resume_path = req.file ? req.file.path : undefined;
         const application = await updateResume(resume_path, id)
-        if (!application) {
-            return next(new ApiError(404, 'APPLICATION_NOT_FOUND', 'Application not found'))
-        }
-
         res.json(application)
     } catch (err) {
         next(err)
@@ -82,10 +73,6 @@ export const removeApplication = async (req, res, next) => {
     try {
         const { id } = req.params
         const application = await deleteApplication(id)
-
-        if (!application) {
-            return next(new ApiError(404, 'APPLICATION_NOT_FOUND', 'Application not found'))
-        }
 
         res.json(application)
     } catch (err) {
