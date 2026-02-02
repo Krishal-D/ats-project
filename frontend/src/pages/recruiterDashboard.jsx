@@ -139,6 +139,48 @@ export function RecruiterDashboard() {
     }
 
 
+    const handleDelete = async (jobId) => {
+        try {
+            let res = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`
+                }
+
+            })
+
+
+            if (res.status === 401) {
+                const newToken = await refreshAccessToken()
+                if (newToken) {
+                    res = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
+                        method: 'DELETE',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${newToken}`
+                        }
+
+                    })
+                }
+            }
+
+            if (res.ok) {
+                setMyJobs(prev => prev.filter(job => job.id !== jobId))
+            } else {
+                console.error('Failed to update status')
+            }
+
+
+
+        } catch (error) {
+            console.error('Error deleting job:', error)
+        }
+    }
+
+
 
     return (
         <main className="dashboardContainer">
@@ -196,7 +238,10 @@ export function RecruiterDashboard() {
                             <h3>My Posted Jobs</h3>
                             <p>Manage and track your job postings</p>
                             {myJobs.map((job) => (
-                                <JobCard key={job.id} details={job} />
+                                <JobCard key={job.id} details={job}>
+                                    <button>Edit</button>
+                                    <button onClick={(e) => handleDelete(job.id)}>Delete</button>
+                                </JobCard>
                             ))}
                         </div>
                     )}

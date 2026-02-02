@@ -4,7 +4,7 @@ import { IoIosTimer } from 'react-icons/io'
 import { useNavigate } from 'react-router-dom'
 import '../styles/jobCard.css'
 
-export function JobCard({ details }) {
+export function JobCard({ details, children }) {
   if (!details) return null;
 
 
@@ -27,6 +27,8 @@ export function JobCard({ details }) {
   return (
     <div className="container">
       <main className="jobBox">
+        {children}
+
         <header className="heading">
           <section className="subHeader">
             <h2>{details.title}</h2>
@@ -73,6 +75,7 @@ export function JobCard({ details }) {
             Apply now
           </button>
         </section>
+
 
       </main>
     </div>
