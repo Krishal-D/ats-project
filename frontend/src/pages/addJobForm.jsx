@@ -5,28 +5,49 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/authContext"
 
 
-export function PostJob() {
+export function PostJob(props) {
+
+    const selectedJobs = props.selectedJobs
+    const onClose = props.onClose
 
     const navigate = useNavigate()
-    const initialFormState = {
-        title: "",
-        company: "",
-        location: "",
-        job_type: "",
-        salary: "",
-        description: "",
-        requirements: "",
-        responsibility: "",
-        benefits: "",
-        tech_stack: "",
+
+    function mapJobToForm(job) {
+        return {
+            title: job?.title || "",
+            company: job?.company || "",
+            location: job?.location || "",
+            job_type: job?.job_type || "",
+            salary: job?.salary || "",
+            description: job?.description || "",
+            requirements: Array.isArray(job?.requirements)
+                ? job.requirements.join("\n")
+                : job?.requirements || "",
+            responsibility: Array.isArray(job?.responsibility)
+                ? job.responsibility.join("\n")
+                : job?.responsibility || "",
+            benefits: Array.isArray(job?.benefits)
+                ? job.benefits.join("\n")
+                : job?.benefits || "",
+            tech_stack: Array.isArray(job?.tech_stack)
+                ? job.tech_stack.join(", ")
+                : job?.tech_stack || "",
+        }
     }
+
 
     const { user, accessToken, refreshAccessToken } = useAuth()
 
 
     const [error, setError] = React.useState({})
 
-    const [form, setForm] = React.useState(initialFormState)
+    const [form, setForm] = React.useState(() => mapJobToForm(selectedJobs))
+
+    React.useEffect(() => {
+        if (selectedJobs) {
+            setForm(mapJobToForm(selectedJobs))
+        }
+    }, [selectedJobs])
 
 
     const handleChange = (e) => {
@@ -144,27 +165,33 @@ export function PostJob() {
         }
 
         try {
-            let res = await fetch(`http://localhost:5000/api/jobs`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${accessToken}`
-                },
-                body: JSON.stringify(formattedForm)
-            })
+            let res = await fetch(selectedJobs ?
+                `http://localhost:5000/api/jobs/${selectedJobs.id}` :
+                `http://localhost:5000/api/jobs`,
+                {
+                    method: selectedJobs ? "PUT" : "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify(formattedForm)
+                })
 
             if (res.status === 401) {
                 const newToken = await refreshAccessToken();
                 if (newToken) {
-                    res = await fetch("http://localhost:5000/api/jobs", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${newToken}`
-                        },
-                        body: JSON.stringify(formattedForm),
-                        credentials: "include",
-                    })
+                    res = await fetch(selectedJobs ?
+                        `http://localhost:5000/api/jobs/${selectedJobs.id}` :
+                        `http://localhost:5000/api/jobs`,
+                        {
+                            method: selectedJobs ? "PUT" : "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${newToken}`
+                            },
+                            body: JSON.stringify(formattedForm),
+                            credentials: "include",
+                        })
                 }
             }
 
@@ -174,7 +201,7 @@ export function PostJob() {
             if (res.ok) {
                 setTimeout(() => {
                     alert("Post successful");
-                    setForm(initialFormState)
+                    setForm(mapJobToForm(selectedJobs))
                     setError({})
                     navigate("/jobList")
 
@@ -187,11 +214,12 @@ export function PostJob() {
 
     }
 
+
     const handleCancel = (e) => {
         e.preventDefault()
-        setForm(initialFormState)
+        setForm(mapJobToForm(selectedJobs))
         setError({})
-        navigate("/jobList")
+        selectedJobs ? onClose() : navigate("/jobList")
 
     }
 
@@ -199,9 +227,9 @@ export function PostJob() {
     return (
         <main className={styles.postContainer}>
             <section className={styles.header}>
-                <h3>Post New Job</h3>
+                <h3>{selectedJobs ? `Edit Your Job Listing` : `Post New Job`}</h3>
                 <p className={styles.headMessage}>
-                    Create a new job listing to attract top talent
+                    {selectedJobs ? `Edit Your job listing to attract top talent` : `Create a new job listing to attract top talent`}
                 </p>
             </section>
 
@@ -361,7 +389,7 @@ export function PostJob() {
                             Cancel
                         </button>
                         <button className={styles.postButton} onClick={handleSubmit} type="submit">
-                            Post Job
+                            {selectedJobs ? `Edit Job` : `Post Job`}
                         </button>
                     </section>
                 </form>

@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/authContext"
 import { JobCard } from "../components/jobCard"
+import { PostJob } from './addJobForm'
 
 
 export function RecruiterDashboard() {
@@ -20,6 +21,8 @@ export function RecruiterDashboard() {
     const [activeTab, setActiveTab] = React.useState('myJobs')
     const [myJobs, setMyJobs] = React.useState([])
     const [candidates, setCandidates] = React.useState([])
+    const [isEditing, setEditing] = React.useState(false)
+    const [selectedJobs, setSelectedJob] = React.useState(null)
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +58,7 @@ export function RecruiterDashboard() {
                 }
 
                 const fetchCandidates = async () => {
-                    let res = await fetch(`http://localhost:5000/api/applications`, {
+                    let res = await fetch(`http://localhost:5000/api/applications/mycandidates/:${myJobs.id}`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
@@ -66,7 +69,7 @@ export function RecruiterDashboard() {
                     if (res.status === 401) {
                         const newToken = await refreshAccessToken()
                         if (newToken) {
-                            res = await fetch(`http://localhost:5000/api/applications`, {
+                            res = await fetch(`http://localhost:5000/api/applications/mycandidates/:${myJobs.id}`, {
                                 method: 'GET',
                                 credentials: 'include',
                                 headers: {
@@ -180,6 +183,18 @@ export function RecruiterDashboard() {
         }
     }
 
+    const handleEdit = async (job) => {
+
+        setEditing(true)
+        setSelectedJob(job)
+
+    }
+
+    const closeEdit = () => {
+        setEditing(false)
+        setSelectedJob(null)
+    }
+
 
 
     return (
@@ -239,7 +254,7 @@ export function RecruiterDashboard() {
                             <p>Manage and track your job postings</p>
                             {myJobs.map((job) => (
                                 <JobCard key={job.id} details={job}>
-                                    <button>Edit</button>
+                                    <button onClick={(e) => handleEdit(job)}>Edit</button>
                                     <button onClick={(e) => handleDelete(job.id)}>Delete</button>
                                 </JobCard>
                             ))}
@@ -247,6 +262,15 @@ export function RecruiterDashboard() {
                     )}
                 </div>
             )}
+
+            {
+                isEditing === true && (
+                    <div className="modalOverlay">
+                        <PostJob onClose={closeEdit} selectedJobs={selectedJobs} />
+
+                    </div>
+                )
+            }
 
             {activeTab === 'candidates' && (
                 <div className='recommendedJobsSection'>
