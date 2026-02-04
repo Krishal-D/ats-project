@@ -3,6 +3,7 @@ import React from 'react'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/authContext"
 import { JobCard } from "../components/jobCard"
+import { Loading } from '../components/Loading'
 
 
 export function CandidateDashboard() {
@@ -20,11 +21,13 @@ export function CandidateDashboard() {
     const [activeTab, setActiveTab] = React.useState('applications')
     const [applications, setApplications] = React.useState([])
     const [recommendedJobs, setRecommendedJobs] = React.useState([])
+    const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
         const fetchData = async () => {
             if (!user || !accessToken) return
 
+            setLoading(true)
             try {
                 const fetchApplications = async () => {
                     let res = await fetch(`http://localhost:5000/api/applications/myapplication`, {
@@ -68,6 +71,8 @@ export function CandidateDashboard() {
                 await Promise.all([fetchApplications(), fetchRecommendedJobs()])
             } catch (error) {
                 console.error('Error fetching dashboard data:', error)
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -123,7 +128,9 @@ export function CandidateDashboard() {
 
             {activeTab === 'applications' && (
                 <div className='applicationsSection'>
-                    {applications.length === 0 ? (
+                    {loading ? (
+                        <Loading message="Loading your applications..." />
+                    ) : applications.length === 0 ? (
                         <div className='emptyState'>
                             <h3>You haven't applied to any jobs yet</h3>
                             <button onClick={browse}>Browse Available Jobs</button>
@@ -151,7 +158,9 @@ export function CandidateDashboard() {
 
             {activeTab === 'recommendedJobs' && (
                 <div className='recommendedJobsSection'>
-                    {recommendedJobs.length === 0 ? (
+                    {loading ? (
+                        <Loading message="Loading recommended jobs..." />
+                    ) : recommendedJobs.length === 0 ? (
                         <div className='emptyState'>
                             <h3>No recommended jobs available</h3>
                             <p>Check back later for personalized job recommendations</p>

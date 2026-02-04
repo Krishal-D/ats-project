@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/authContext"
 import { JobCard } from "../components/jobCard"
 import { PostJob } from './addJobForm'
+import { Loading } from '../components/Loading'
 
 
 export function RecruiterDashboard() {
@@ -23,11 +24,13 @@ export function RecruiterDashboard() {
     const [candidates, setCandidates] = React.useState([])
     const [isEditing, setEditing] = React.useState(false)
     const [selectedJobs, setSelectedJob] = React.useState(null)
+    const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
         const fetchData = async () => {
             if (!user || !accessToken) return
 
+            setLoading(true)
             try {
                 const fetchMyJobs = async () => {
                     let res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
@@ -88,6 +91,8 @@ export function RecruiterDashboard() {
                 await Promise.all([fetchMyJobs(), fetchCandidates()])
             } catch (error) {
                 console.error('Error fetching dashboard data:', error)
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -243,7 +248,9 @@ export function RecruiterDashboard() {
 
             {activeTab === 'myJobs' && (
                 <div className='applicationsSection'>
-                    {myJobs.length === 0 ? (
+                    {loading ? (
+                        <Loading message="Loading your jobs..." />
+                    ) : myJobs.length === 0 ? (
                         <div className='emptyState'>
                             <h3>You haven't posted any jobs yet</h3>
                             <button onClick={postNewJob}>Post Your First Job</button>
@@ -274,7 +281,9 @@ export function RecruiterDashboard() {
 
             {activeTab === 'candidates' && (
                 <div className='recommendedJobsSection'>
-                    {candidates.length === 0 ? (
+                    {loading ? (
+                        <Loading message="Loading applications..." />
+                    ) : candidates.length === 0 ? (
                         <div className='emptyState'>
                             <h3>No applications received yet</h3>
                             <p>Post jobs to start receiving applications from candidates</p>
