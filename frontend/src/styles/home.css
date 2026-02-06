@@ -1,0 +1,318 @@
+.homePage {
+    width: 100%;
+    background-color: #ffffff;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+.heroContent {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.heroContent h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.heroSubtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    line-height: 1.6;
+}
+
+.heroButtons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.primaryBtn, .secondaryBtn {
+    padding: 1rem 2.5rem;
+    font-size: 1.125rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    font-weight: 600;
+}
+
+.primaryBtn {
+    background-color: white;
+    color: #0ea5e9;
+}
+
+.primaryBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.secondaryBtn {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.secondaryBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Stats Section */
+.stats {
+    padding: 4rem 2rem;
+    background-color: #f8fafc;
+}
+
+.statsContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.statCard {
+    text-align: center;
+    padding: 2rem;
+}
+
+.statCard h3 {
+    font-size: 2.5rem;
+    color: #0ea5e9;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.statCard p {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+/* Features Section */
+.features {
+    padding: 5rem 2rem;
+    background-color: white;
+}
+
+.featuresContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.featuresContainer h2 {
+    font-size: 2.5rem;
+    color: #0a0a0a;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.featuresSubtitle {
+    font-size: 1.125rem;
+    color: #64748b;
+    margin-bottom: 3rem;
+}
+
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.featureCard {
+    padding: 2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all 0.3s;
+    background-color: white;
+}
+
+.featureCard:hover {
+    border-color: #0ea5e9;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+    transform: translateY(-4px);
+}
+
+.featureIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.featureCard h3 {
+    font-size: 1.25rem;
+    color: #0a0a0a;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.featureCard p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* How It Works */
+.howItWorks {
+    padding: 5rem 2rem;
+    background-color: #f8fafc;
+}
+
+.howItWorksContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.howItWorksContainer h2 {
+    font-size: 2.5rem;
+    color: #0a0a0a;
+    margin-bottom: 3rem;
+    font-weight: 600;
+}
+
+.stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.step {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.stepNumber {
+    width: 50px;
+    height: 50px;
+    background-color: #0ea5e9;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+}
+
+.step h3 {
+    font-size: 1.25rem;
+    color: #0a0a0a;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.step p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: white;
+    text-align: center;
+}
+
+.ctaContent {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ctaContent h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.ctaContent p {
+    font-size: 1.125rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.ctaPrimaryBtn, .ctaSecondaryBtn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.ctaPrimaryBtn {
+    background-color: white;
+    color: #0ea5e9;
+    border: none;
+}
+
+.ctaPrimaryBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ctaSecondaryBtn {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.ctaSecondaryBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .heroContent h1 {
+        font-size: 2.5rem;
+    }
+
+    .heroSubtitle {
+        font-size: 1rem;
+    }
+
+    .featuresContainer h2,
+    .howItWorksContainer h2,
+    .ctaContent h2 {
+        font-size: 2rem;
+    }
+
+    .statsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .featuresGrid,
+    .stepsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .ctaButtons,
+    .heroButtons {
+        flex-direction: column;
+    }
+
+    .primaryBtn, .secondaryBtn,
+    .ctaPrimaryBtn, .ctaSecondaryBtn {
+        width: 100%;
+    }
+}

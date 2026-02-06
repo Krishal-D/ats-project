@@ -10,15 +10,25 @@ import { CandidateDashboard } from './pages/candidateDashboard'
 import { RecruiterDashboard } from './pages/recruiterDashboard'
 import { Navigation } from './components/Navigation'
 import { Profile } from './pages/Profile'
+import { Footer } from './components/Footer'
+import { About } from './pages/About'
+import { Contact } from './pages/Contact'
+import { Privacy } from './pages/Privacy'
+import { Home } from './pages/Home'
 
 export default function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={
+            <>
+              <Navigation />
+              <Home />
+            </>
+          } />
 
-          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
 
           <Route path="/signup" element={<Register />} />
 
@@ -70,7 +80,29 @@ export default function App() {
               <Profile />
             </ProtectedRoute>
           } />
+
+          <Route path='/about' element={
+            <>
+              <Navigation />
+              <About />
+            </>
+          } />
+
+          <Route path='/contact' element={
+            <>
+              <Navigation />
+              <Contact />
+            </>
+          } />
+
+          <Route path='/privacy' element={
+            <>
+              <Navigation />
+              <Privacy />
+            </>
+          } />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   )

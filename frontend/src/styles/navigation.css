@@ -18,6 +18,10 @@
     margin: 0;
 }
 
+.logo {
+    cursor: pointer;
+}
+
 .hamburgerMenu {
     display: flex;
     margin-left: auto;

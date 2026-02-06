@@ -24,7 +24,7 @@ export function Navigation() {
 
     return (
         <nav className="navContainer">
-            <div className="logo">
+            <div className="logo" onClick={() => navigate('/')}>
                 <h1>TalentTrack</h1>
             </div>
 
