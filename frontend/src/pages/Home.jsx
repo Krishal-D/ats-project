@@ -17,23 +17,19 @@ export function Home() {
     const features = [
         {
             title: 'Smart Job Search',
-            description: 'Browse thousands of job opportunities with advanced filters for location, job type, and tech stack.',
-            icon: '🔍'
+            description: 'Browse thousands of job opportunities with advanced filters for location, job type, and tech stack.'
         },
         {
             title: 'Easy Applications',
-            description: 'Apply to jobs with one click. Upload your resume once and track all your applications in one place.',
-            icon: '📝'
+            description: 'Apply to jobs with one click. Upload your resume once and track all your applications in one place.'
         },
         {
             title: 'Real-time Tracking',
-            description: 'Monitor your application status from submission to interview. Stay updated every step of the way.',
-            icon: '📊'
+            description: 'Monitor your application status from submission to interview. Stay updated every step of the way.'
         },
         {
             title: 'Employer Dashboard',
-            description: 'Post jobs, manage applications, and find qualified candidates efficiently with our recruiter tools.',
-            icon: '💼'
+            description: 'Post jobs, manage applications, and find qualified candidates efficiently with our recruiter tools.'
         }
     ]
 
@@ -86,7 +82,6 @@ export function Home() {
                     <div className="featuresGrid">
                         {features.map((feature, index) => (
                             <div key={index} className="featureCard">
-                                <div className="featureIcon">{feature.icon}</div>
                                 <h3>{feature.title}</h3>
                                 <p>{feature.description}</p>
                             </div>

@@ -144,11 +144,6 @@
     transform: translateY(-4px);
 }
 
-.featureIcon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
 .featureCard h3 {
     font-size: 1.25rem;
     color: #0a0a0a;
