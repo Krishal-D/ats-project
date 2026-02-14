@@ -63,6 +63,7 @@ export function Apply() {
         try {
             let res = await fetch(`http://localhost:5000/api/applications`, {
                 method: "POST",
+                credentials: 'include',
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
@@ -74,6 +75,7 @@ export function Apply() {
                 if (newToken) {
                     res = await fetch(`http://localhost:5000/api/applications`, {
                         method: "POST",
+                        credentials: 'include',
                         headers: {
                             Authorization: `Bearer ${newToken}`
                         },

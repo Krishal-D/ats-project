@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt'
 import { siginUser } from '../models/userModel.js'
 import { setRefreshToken, removeRefreshToken } from '../models/userModel.js'
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../config/auth.js'
-import { findUserById } from '../models/userModel.js'
 
 
 export const loginUsers = async (req, res, next) => {
@@ -53,7 +52,8 @@ export const logOutUsers = async (req, res, next) => {
         if (user?.id) {
           await removeRefreshToken(user.id)
         }
-      } catch (_) {
+      } catch (err) {
+        console.error('Token verification failed during logout:', err)
       }
     }
 

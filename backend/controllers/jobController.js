@@ -67,7 +67,7 @@ export const registerJobs = async (req, res, next) => {
       benefits,
       recruiter_id
     )
-    res.status(200).json(jobs)
+    res.status(201).json(jobs)
   } catch (err) {
     next(err)
   }

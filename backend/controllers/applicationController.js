@@ -17,7 +17,7 @@ export const getApplicationById = async (req, res, next) => {
         const application = await findApplicationById(id)
 
         if (!application) {
-            return res.status(404).json({ err: 'application not found' })
+            return res.status(404).json({ error: 'Application not found' })
         }
 
         res.json(application)
@@ -36,7 +36,7 @@ export const registerApplication = async (req, res, next) => {
 
         const application = await createApplication(user_id, job_id, status, cover_letter, resume_path)
 
-        res.status(200).json(application)
+        res.status(201).json(application)
 
     } catch (err) {
         next(err)
@@ -72,9 +72,19 @@ export const editResume = async (req, res, next) => {
 export const removeApplication = async (req, res, next) => {
     try {
         const { id } = req.params
-        const application = await deleteApplication(id)
+        const application = await findApplicationById(id)
 
-        res.json(application)
+        if (!application) {
+            return res.status(404).json({ error: 'Application not found' })
+        }
+
+        if (application.user_id !== req.user.id) {
+            return res.status(403).json({ error: 'Not authorized to delete this application' })
+        }
+
+        const deleted = await deleteApplication(id)
+
+        res.json(deleted)
     } catch (err) {
         next(err)
     }

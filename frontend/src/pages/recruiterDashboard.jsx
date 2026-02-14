@@ -27,68 +27,36 @@ export function RecruiterDashboard() {
     const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
-        const fetchData = async () => {
+        const fetchMyJobs = async () => {
             if (!user || !accessToken) return
 
             setLoading(true)
             try {
-                const fetchMyJobs = async () => {
-                    let res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
-                        method: 'GET',
-                        credentials: 'include',
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    })
-
-                    if (res.status === 401) {
-                        const newToken = await refreshAccessToken()
-                        if (newToken) {
-                            res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
-                                method: 'GET',
-                                credentials: 'include',
-                                headers: {
-                                    Authorization: `Bearer ${newToken}`
-                                }
-                            })
-                        }
+                let res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
+                })
 
-                    if (res.ok) {
-                        const data = await res.json()
-                        setMyJobs(data)
+                if (res.status === 401) {
+                    const newToken = await refreshAccessToken()
+                    if (newToken) {
+                        res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
+                            method: 'GET',
+                            credentials: 'include',
+                            headers: {
+                                Authorization: `Bearer ${newToken}`
+                            }
+                        })
                     }
                 }
 
-                const fetchCandidates = async () => {
-                    let res = await fetch(`http://localhost:5000/api/applications/mycandidates/:${myJobs.id}`, {
-                        method: 'GET',
-                        credentials: 'include',
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    })
-
-                    if (res.status === 401) {
-                        const newToken = await refreshAccessToken()
-                        if (newToken) {
-                            res = await fetch(`http://localhost:5000/api/applications/mycandidates/:${myJobs.id}`, {
-                                method: 'GET',
-                                credentials: 'include',
-                                headers: {
-                                    Authorization: `Bearer ${newToken}`
-                                }
-                            })
-                        }
-                    }
-
-                    if (res.ok) {
-                        const data = await res.json()
-                        setCandidates(data)
-                    }
+                if (res.ok) {
+                    const data = await res.json()
+                    setMyJobs(data)
                 }
-
-                await Promise.all([fetchMyJobs(), fetchCandidates()])
             } catch (error) {
                 console.error('Error fetching dashboard data:', error)
             } finally {
@@ -96,8 +64,56 @@ export function RecruiterDashboard() {
             }
         }
 
-        fetchData()
+        fetchMyJobs()
     }, [user, accessToken, refreshAccessToken])
+
+    React.useEffect(() => {
+        const fetchCandidates = async () => {
+            if (!user || !accessToken) return
+            if (!myJobs.length) {
+                setCandidates([])
+                return
+            }
+
+            const jobId = myJobs[0]?.id
+            if (!jobId) return
+
+            setLoading(true)
+            try {
+                let res = await fetch(`http://localhost:5000/api/applications/mycandidates/${jobId}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })
+
+                if (res.status === 401) {
+                    const newToken = await refreshAccessToken()
+                    if (newToken) {
+                        res = await fetch(`http://localhost:5000/api/applications/mycandidates/${jobId}`, {
+                            method: 'GET',
+                            credentials: 'include',
+                            headers: {
+                                Authorization: `Bearer ${newToken}`
+                            }
+                        })
+                    }
+                }
+
+                if (res.ok) {
+                    const data = await res.json()
+                    setCandidates(data)
+                }
+            } catch (error) {
+                console.error('Error fetching candidates:', error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchCandidates()
+    }, [myJobs, user, accessToken, refreshAccessToken])
 
     function postNewJob() {
         navigate(`/addJob`)
