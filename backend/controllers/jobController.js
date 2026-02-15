@@ -4,6 +4,7 @@ import {
   createJobs,
   editJobs,
   removeJobs,
+  findJobsByRecruiterId
 } from '../models/jobModel.js'
 
 export const getJobs = async (req, res, next) => {
@@ -25,6 +26,17 @@ export const getJobsById = async (req, res, next) => {
   }
 }
 
+export const getJobsByRecruiterId = async (req, res, next) => {
+  try {
+    const recruiter_id = req.user.id
+    const jobs = await findJobsByRecruiterId(recruiter_id)
+    res.json(jobs)
+  } catch (err) {
+    next(err)
+  }
+}
+
+
 export const registerJobs = async (req, res, next) => {
   try {
     const {
@@ -39,7 +51,9 @@ export const registerJobs = async (req, res, next) => {
       responsibility,
       benefits
     } = req.body
-    
+
+    const recruiter_id = req.user.id
+
     const jobs = await createJobs(
       title,
       company,
@@ -50,9 +64,10 @@ export const registerJobs = async (req, res, next) => {
       tech_stack,
       requirements,
       responsibility,
-      benefits
+      benefits,
+      recruiter_id
     )
-    res.status(200).json(jobs)
+    res.status(201).json(jobs)
   } catch (err) {
     next(err)
   }

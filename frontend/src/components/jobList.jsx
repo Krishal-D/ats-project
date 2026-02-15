@@ -1,8 +1,10 @@
 import { JobCard } from './jobCard'
 import React from 'react'
+import { Loading } from './Loading'
 
 export function JobList() {
   const [data, setData] = React.useState([])
+  const [loading, setLoading] = React.useState(true)
 
   const [filter, setFilter] = React.useState({
     search: "",
@@ -11,9 +13,16 @@ export function JobList() {
   })
 
   const getDetails = async () => {
-    const res = await fetch('http://localhost:5000/api/job')
-    const details = await res.json()
-    setData(details)
+    try {
+      setLoading(true)
+      const res = await fetch('http://localhost:5000/api/jobs')
+      const details = await res.json()
+      setData(details)
+    } catch (error) {
+      console.error('Error fetching jobs:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   React.useEffect(() => {
@@ -103,9 +112,13 @@ export function JobList() {
 
 
       <section className="jobList">
-        {filteredOutput.map((job) => (
-          <JobCard key={job.id} details={job} />
-        ))}
+        {loading ? (
+          <Loading message="Loading jobs..." />
+        ) : (
+          filteredOutput.map((job) => (
+            <JobCard key={job.id} details={job} />
+          ))
+        )}
       </section>
 
 

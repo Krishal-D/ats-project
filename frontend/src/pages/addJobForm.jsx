@@ -1,28 +1,53 @@
 import "../styles/form.css"
 import styles from "../styles/addJobForm.module.css"
 import React from "react"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../auth/authContext"
 
-export function PostJob() {
+
+export function PostJob(props) {
+
+    const selectedJobs = props.selectedJobs
+    const onClose = props.onClose
 
     const navigate = useNavigate()
-    const initialFormState = {
-        title: "",
-        company: "",
-        location: "",
-        job_type: "",
-        salary: "",
-        description: "",
-        requirements: "",
-        responsibility: "",
-        benefits: "",
-        tech_stack: "",
-    };
+
+    function mapJobToForm(job) {
+        return {
+            title: job?.title || "",
+            company: job?.company || "",
+            location: job?.location || "",
+            job_type: job?.job_type || "",
+            salary: job?.salary || "",
+            description: job?.description || "",
+            requirements: Array.isArray(job?.requirements)
+                ? job.requirements.join("\n")
+                : job?.requirements || "",
+            responsibility: Array.isArray(job?.responsibility)
+                ? job.responsibility.join("\n")
+                : job?.responsibility || "",
+            benefits: Array.isArray(job?.benefits)
+                ? job.benefits.join("\n")
+                : job?.benefits || "",
+            tech_stack: Array.isArray(job?.tech_stack)
+                ? job.tech_stack.join(", ")
+                : job?.tech_stack || "",
+        }
+    }
+
+
+    const { user, accessToken, refreshAccessToken } = useAuth()
 
 
     const [error, setError] = React.useState({})
 
-    const [form, setForm] = React.useState(initialFormState)
+    const [form, setForm] = React.useState(() => mapJobToForm(selectedJobs))
+
+    React.useEffect(() => {
+        if (selectedJobs) {
+            setForm(mapJobToForm(selectedJobs))
+        }
+    }, [selectedJobs])
 
 
     const handleChange = (e) => {
@@ -110,53 +135,65 @@ export function PostJob() {
         }))
     }
 
-    function normalizeJobType(str) {
-        if (!str) return "";
-        const cleaned = str.toLowerCase().replace(/[\s-_]/g, "");
-        if (cleaned.includes("full")) return "Full-time";
-        if (cleaned.includes("part")) return "Part-time";
-        if (cleaned.includes("contract")) return "Contract";
-        return str; // fallback, leave as is
-    }
-
-
     const formattedForm = {
         ...form,
 
-        job_type: normalizeJobType(form.job_type),
-
-
-        // Convert comma-separated skills into an array
         tech_stack: form.tech_stack
             ? form.tech_stack.split(",").map(s => s.trim()).filter(Boolean)
             : [],
 
-        // Convert each line of requirements into an array
         requirements: form.requirements
             ? form.requirements.split("\n").map(s => s.trim()).filter(Boolean)
             : [],
 
-        // Convert each line of responsibilities into an array
         responsibility: form.responsibility
             ? form.responsibility.split("\n").map(s => s.trim()).filter(Boolean)
             : [],
 
-        // Convert each line of benefits into an array
         benefits: form.benefits
             ? form.benefits.split("\n").map(s => s.trim()).filter(Boolean)
             : [],
-    };
+    }
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        if (user.role !== "employer") {
+            alert('Only employers can post jobs')
+            return
+        }
+
         try {
-            const res = await fetch(`http://localhost:5000/api/job`, {
-                method: "POST",
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify(formattedForm)
-            })
+            let res = await fetch(selectedJobs ?
+                `http://localhost:5000/api/jobs/${selectedJobs.id}` :
+                `http://localhost:5000/api/jobs`,
+                {
+                    method: selectedJobs ? "PUT" : "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${accessToken}`
+                    },
+                    body: JSON.stringify(formattedForm)
+                })
+
+            if (res.status === 401) {
+                const newToken = await refreshAccessToken();
+                if (newToken) {
+                    res = await fetch(selectedJobs ?
+                        `http://localhost:5000/api/jobs/${selectedJobs.id}` :
+                        `http://localhost:5000/api/jobs`,
+                        {
+                            method: selectedJobs ? "PUT" : "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${newToken}`
+                            },
+                            body: JSON.stringify(formattedForm),
+                            credentials: "include",
+                        })
+                }
+            }
 
             const details = await res.json()
             console.log(details)
@@ -164,7 +201,7 @@ export function PostJob() {
             if (res.ok) {
                 setTimeout(() => {
                     alert("Post successful");
-                    setForm(initialFormState)
+                    setForm(mapJobToForm(selectedJobs))
                     setError({})
                     navigate("/jobList")
 
@@ -177,11 +214,12 @@ export function PostJob() {
 
     }
 
+
     const handleCancel = (e) => {
         e.preventDefault()
-        setForm(initialFormState)
+        setForm(mapJobToForm(selectedJobs))
         setError({})
-        navigate("/jobList")
+        selectedJobs ? onClose() : navigate("/jobList")
 
     }
 
@@ -189,9 +227,9 @@ export function PostJob() {
     return (
         <main className={styles.postContainer}>
             <section className={styles.header}>
-                <h3>Post New Job</h3>
+                <h3>{selectedJobs ? `Edit Your Job Listing` : `Post New Job`}</h3>
                 <p className={styles.headMessage}>
-                    Create a new job listing to attract top talent
+                    {selectedJobs ? `Edit Your job listing to attract top talent` : `Create a new job listing to attract top talent`}
                 </p>
             </section>
 
@@ -202,7 +240,6 @@ export function PostJob() {
                 </p>
 
                 <form method="POST" className={`formBody ${styles.formBody}`}>
-                    {/* Row: Job Title + Company */}
                     <div className={styles.rowTwo}>
                         <div className={styles.field}>
                             <label htmlFor="title">Job Title*</label>
@@ -237,7 +274,6 @@ export function PostJob() {
 
                     </div>
 
-                    {/* Row: Location + Job Type + Salary */}
                     <div className={styles.rowThree}>
                         <div className={styles.field}>
                             <label htmlFor="location">Location*</label>
@@ -282,7 +318,7 @@ export function PostJob() {
                                 required
                             />
                         </div>
-                        <span className="error">{error.salary}</span>
+                        {error.salary && <p className="error">{error.salary}</p>}
 
                     </div>
 
@@ -353,7 +389,7 @@ export function PostJob() {
                             Cancel
                         </button>
                         <button className={styles.postButton} onClick={handleSubmit} type="submit">
-                            Post Job
+                            {selectedJobs ? `Edit Job` : `Post Job`}
                         </button>
                     </section>
                 </form>

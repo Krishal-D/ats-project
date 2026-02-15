@@ -3,6 +3,7 @@ import styles from '../styles/login.module.css'
 import { HiArrowLongLeft } from 'react-icons/hi2'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
+import { useAuth } from '../auth/authContext'
 
 export function Login() {
   const navigate = useNavigate()
@@ -10,6 +11,9 @@ export function Login() {
   function handleNavigate() {
     navigate('/register')
   }
+
+  const { login } = useAuth();
+
 
   const [form, setForm] = React.useState({
     email: '',
@@ -64,20 +68,21 @@ export function Login() {
       const res = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(form),
       })
 
       const details = await res.json()
 
-      if (!res.ok) {
+      if (res.ok) {
+        login(details.token, details.user)
+        navigate('/jobList') 
+      } else {
         setError((prev) => ({
           ...prev,
           password: details.message || details.error,
         }))
-      } else {
-        console.log('login success')
       }
-      console.log(details)
       return details
     } catch (err) {
       console.error(err)

@@ -60,6 +60,14 @@ export function Register() {
                 return ''
             }
         },
+
+        role: (value) => {
+            if (!value) {
+                return 'Please select your account type'
+            } else {
+                return ''
+            }
+        },
     }
 
     const [form, setForm] = React.useState({
@@ -68,6 +76,7 @@ export function Register() {
         confirmPassword: '',
         firstName: '',
         lastName: '',
+        role: '',
         TC: false,
     })
 
@@ -100,6 +109,7 @@ export function Register() {
         const values = {
             ...form,
             name: form.firstName + ' ' + form.lastName,
+            role: form.role
         }
 
         const submitErrors = {}
@@ -125,9 +135,6 @@ export function Register() {
                 credentials: 'include',
                 body: JSON.stringify(values),
             })
-            const details = await res.json()
-            console.log(details)
-
             if (res.ok) {
                 navigate('/login')
             }
@@ -193,6 +200,21 @@ export function Register() {
                         placeholder="Enter your email"
                     />
                     {error.email && <p className="error">{error.email}</p>}
+
+                    <label htmlFor="role">Account Type</label>
+                    <select
+                        name="role"
+                        id="role"
+                        value={form.role}
+                        onChange={handleChange}
+                        onBlur={handleError}
+                        required
+                    >
+                        <option value="">Select account type</option>
+                        <option value="candidate">Job Seeker</option>
+                        <option value="employer">Employer</option>
+                    </select>
+                    {error.role && <p className="error">{error.role}</p>}
 
                     <label htmlFor="password">Password</label>
                     <input
