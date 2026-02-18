@@ -1,114 +1,135 @@
 import {
-  findAllApplication,
-  findApplicationById,
-  createApplication,
-  updateApplicationStatus,
-  updateResume,
-  deleteApplication,
-  findApplicationByUserId,
-  findUserByJobId,
+    findAllApplication,
+    findApplicationById,
+    findApplicationWithJob,
+    createApplication,
+    updateApplicationStatus,
+    updateResume,
+    deleteApplication,
+    findApplicationByUserId,
+    findUserByJobId,
 } from '../models/applicationModel.js'
 
 export const getApplication = async (req, res, next) => {
-  try {
-    const applications = await findAllApplication()
-    res.json(applications)
-  } catch (err) {
-    next(err)
-  }
+    try {
+        const applications = await findAllApplication()
+        res.json(applications)
+    } catch (err) {
+        next(err)
+    }
 }
 
 export const getApplicationById = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const application = await findApplicationById(id)
+    try {
+        const { id } = req.params
+        const application = await findApplicationById(id)
 
-    if (!application) {
-      return res.status(404).json({ error: 'Application not found' })
+        if (!application) {
+            return res.status(404).json({ error: 'Application not found' })
+        }
+
+        res.json(application)
+    } catch (err) {
+        next(err)
     }
-
-    res.json(application)
-  } catch (err) {
-    next(err)
-  }
 }
 
 export const registerApplication = async (req, res, next) => {
-  try {
-    const { user_id, job_id, status, cover_letter } = req.body
+    try {
+        const user_id = req.user.id
+        const { job_id, cover_letter } = req.body
+        const status = 'pending'
 
-    const resume_path = req.file ? req.file.path : undefined
+        if (!job_id) {
+            return res.status(400).json({ error: 'job_id is required' })
+        }
 
-    const application = await createApplication(user_id, job_id, status, cover_letter, resume_path)
+        const resume_path = req.file ? req.file.path : undefined
 
-    res.status(201).json(application)
-  } catch (err) {
-    next(err)
-  }
+        const application = await createApplication(user_id, job_id, status, cover_letter, resume_path)
+
+        res.status(201).json(application)
+    } catch (err) {
+        next(err)
+    }
 }
 
 export const editApplicationStatus = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const { status } = req.body
+    try {
+        const { id } = req.params
+        const { status } = req.body
 
-    const application = await updateApplicationStatus(status, id)
-    res.json(application)
-  } catch (err) {
-    next(err)
-  }
+        const validStatuses = ['pending', 'reviewing', 'accepted', 'rejected']
+        if (!status || !validStatuses.includes(status)) {
+            return res.status(400).json({ error: `Status must be one of: ${validStatuses.join(', ')}` })
+        }
+
+        const application = await findApplicationWithJob(id)
+        if (!application) {
+            return res.status(404).json({ error: 'Application not found' })
+        }
+
+        if (application.recruiter_id !== req.user.id) {
+            return res.status(403).json({ error: 'Not authorized to update this application' })
+        }
+
+        const updated = await updateApplicationStatus(status, id)
+        res.json(updated)
+    } catch (err) {
+        next(err)
+    }
 }
 
 export const editResume = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const resume_path = req.file ? req.file.path : undefined
-    const application = await updateResume(resume_path, id)
-    res.json(application)
-  } catch (err) {
-    next(err)
-  }
+    try {
+        const { id } = req.params
+        const resume_path = req.file ? req.file.path : undefined
+        const application = await updateResume(resume_path, id)
+        res.json(application)
+    } catch (err) {
+        next(err)
+    }
 }
 
 export const removeApplication = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const application = await findApplicationById(id)
+    try {
+        const { id } = req.params
+        const application = await findApplicationById(id)
 
-    if (!application) {
-      return res.status(404).json({ error: 'Application not found' })
+        if (!application) {
+            return res.status(404).json({ error: 'Application not found' })
+        }
+
+        if (application.user_id !== req.user.id) {
+            return res.status(403).json({ error: 'Not authorized to delete this application' })
+        }
+
+        const deleted = await deleteApplication(id)
+
+        res.json(deleted)
+    } catch (err) {
+        next(err)
     }
-
-    if (application.user_id !== req.user.id) {
-      return res.status(403).json({ error: 'Not authorized to delete this application' })
-    }
-
-    const deleted = await deleteApplication(id)
-
-    res.json(deleted)
-  } catch (err) {
-    next(err)
-  }
 }
 
 export const getApplicationByUserId = async (req, res, next) => {
-  try {
-    const user_id = req.user.id
-    const applications = await findApplicationByUserId(user_id)
+    try {
+        const user_id = req.user.id
+        const applications = await findApplicationByUserId(user_id)
 
-    res.json(applications)
-  } catch (err) {
-    next(err)
-  }
+        res.json(applications)
+    } catch (err) {
+        next(err)
+    }
 }
 
 export const getUserByJobId = async (req, res, next) => {
-  try {
-    const { job_id } = req.params
-    const applications = await findUserByJobId(job_id)
+    try {
+        const { job_id } = req.params
+        const applications = await findUserByJobId(job_id)
 
-    res.json(applications)
-  } catch (err) {
-    next(err)
-  }
+        res.json(applications)
+    } catch (err) {
+        next(err)
+    }
 }

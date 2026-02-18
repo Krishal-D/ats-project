@@ -79,7 +79,7 @@ export const updateUsers = async (req, res, next) => {
 
     const hashedPassword = password ? await bcrypt.hash(password, SALT_ROUNDS) : oldUser.password
 
-    const users = await editUser(name, email, id)
+    const users = await editUser(name, email, hashedPassword, id)
     res.status(200).json({ id: users.id, name: users.name, email: users.email })
   } catch (err) {
     next(err)

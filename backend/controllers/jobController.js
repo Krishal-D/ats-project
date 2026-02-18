@@ -52,6 +52,10 @@ export const registerJobs = async (req, res, next) => {
       benefits
     } = req.body
 
+    if (!title || !company || !description || !location || !job_type) {
+      return res.status(400).json({ error: 'title, company, description, location and job_type are required' })
+    }
+
     const recruiter_id = req.user.id
 
     const jobs = await createJobs(
@@ -88,6 +92,11 @@ export const updateJobs = async (req, res, next) => {
       responsibility,
       benefits
     } = req.body
+
+    if (!title || !company || !description || !location || !job_type) {
+      return res.status(400).json({ error: 'title, company, description, location and job_type are required' })
+    }
+
     const jobs = await editJobs(
       title,
       company,

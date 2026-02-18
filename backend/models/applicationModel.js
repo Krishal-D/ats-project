@@ -48,6 +48,16 @@ export const createApplication = async (user_id, job_id, status, cover_letter, r
     throw new Error('Job Not found')
   }
 
+  const dupCheck = await pool.query(
+    `SELECT id FROM applications WHERE user_id = $1 AND job_id = $2`,
+    [user_id, job_id]
+  )
+  if (dupCheck.rows.length > 0) {
+    const err = new Error('You have already applied for this job')
+    err.statusCode = 409
+    throw err
+  }
+
   const result = await pool.query(
     `
         INSERT INTO applications (user_id,job_id,status,cover_letter,resume_path) VALUES ($1,$2,$3,$4,$5) RETURNING *
@@ -55,6 +65,17 @@ export const createApplication = async (user_id, job_id, status, cover_letter, r
     [user_id, job_id, status, cover_letter, resume_path]
   )
 
+  return result.rows[0]
+}
+
+export const findApplicationWithJob = async (id) => {
+  const result = await pool.query(
+    `SELECT a.id, a.user_id, a.job_id, a.status, j.recruiter_id
+     FROM applications a
+     JOIN jobs j ON a.job_id = j.id
+     WHERE a.id = $1`,
+    [id]
+  )
   return result.rows[0]
 }
 

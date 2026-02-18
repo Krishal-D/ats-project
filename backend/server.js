@@ -1,4 +1,5 @@
 import express from 'express'
+import helmet from 'helmet'
 import dotenv from 'dotenv'
 import userRoutes from './routes/userRoutes.js'
 import jobRoutes from './routes/jobRoutes.js'
@@ -20,6 +21,8 @@ if (missing.length) {
 const PORT = process.env.PORT || 5000
 
 const app = express()
+
+app.use(helmet())
 
 const allowedOrigins = [
   'http://localhost:5173',
