@@ -1,5 +1,6 @@
 import '../styles/footerPages.css'
 import { useNavigate } from 'react-router-dom'
+import { HiArrowLeft } from 'react-icons/hi'
 
 export function Privacy() {
   const navigate = useNavigate()
@@ -8,7 +9,7 @@ export function Privacy() {
     <div className="footerPage">
       <div className="footerPageContent">
         <button className="backButton" onClick={() => navigate(-1)}>
-          ← Back
+          <HiArrowLeft /> Back
         </button>
 
         <h1>Privacy Policy</h1>

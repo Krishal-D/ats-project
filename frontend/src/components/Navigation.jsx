@@ -2,6 +2,7 @@ import React from 'react'
 import '../styles/navigation.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/authContext'
+import { HiMenu, HiX } from 'react-icons/hi'
 
 export function Navigation() {
   const [open, setOpen] = React.useState(false)
@@ -29,8 +30,8 @@ export function Navigation() {
       </div>
 
       <div className="hamburgerMenu">
-        <button className="hamburger" onClick={handleChange}>
-          ☰
+        <button className="hamburger" onClick={handleChange} aria-label="Toggle menu">
+          {open ? <HiX /> : <HiMenu />}
         </button>
       </div>
 
