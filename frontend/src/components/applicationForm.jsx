@@ -4,6 +4,7 @@ import styles from '../styles/addJobForm.module.css'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/authContext'
 import API_BASE_URL from '../config/api'
+import { useToast } from './Toast'
 
 export function Apply() {
   const { id } = useParams()
