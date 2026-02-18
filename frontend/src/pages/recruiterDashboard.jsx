@@ -6,6 +6,7 @@ import { JobCard } from '../components/jobCard'
 import { PostJob } from './addJobForm'
 import { Loading } from '../components/Loading'
 import API_BASE_URL from '../config/api'
+import { useToast } from '../components/Toast'
 
 export function RecruiterDashboard() {
   const boxes = [
@@ -17,6 +18,7 @@ export function RecruiterDashboard() {
 
   const navigate = useNavigate()
   const { user, accessToken, refreshAccessToken } = useAuth()
+  const toast = useToast()
 
   const [activeTab, setActiveTab] = React.useState('myJobs')
   const [myJobs, setMyJobs] = React.useState([])
@@ -151,11 +153,13 @@ export function RecruiterDashboard() {
             app.applicant_id === applicationId ? { ...app, status: newStatus } : app
           )
         )
+        toast.success(`Status updated to "${newStatus}"`)
       } else {
-        console.error('Failed to update status')
+        toast.error('Failed to update status')
       }
     } catch (error) {
       console.error('Error updating status:', error)
+      toast.error('An error occurred while updating status')
     }
   }
 
@@ -186,11 +190,13 @@ export function RecruiterDashboard() {
 
       if (res.ok) {
         setMyJobs((prev) => prev.filter((job) => job.id !== jobId))
+        toast.success('Job deleted successfully')
       } else {
-        console.error('Failed to update status')
+        toast.error('Failed to delete job')
       }
     } catch (error) {
       console.error('Error deleting job:', error)
+      toast.error('An error occurred while deleting the job')
     }
   }
 
