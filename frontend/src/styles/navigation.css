@@ -139,4 +139,16 @@
   .logoutButton:hover {
     background-color: rgba(14, 165, 233, 0.9);
   }
+
+  .navSignUp {
+    background-color: #0ea5e9;
+    color: #ffffff !important;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .navSignUp:hover {
+    background-color: #0284c7;
+    color: #ffffff !important;
+  }
 }

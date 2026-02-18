@@ -36,7 +36,19 @@ export function Navigation() {
       </div>
 
       <div className={`navLinks ${open ? 'open' : ''}`}>
-        {user && (
+        {!user ? (
+          <>
+            <Link to="/jobList" onClick={closeMenu}>
+              Browse Jobs
+            </Link>
+            <Link to="/login" onClick={closeMenu}>
+              Sign In
+            </Link>
+            <Link to="/signup" onClick={closeMenu} className="navSignUp">
+              Sign Up
+            </Link>
+          </>
+        ) : (
           <>
             <Link to="/jobList" onClick={closeMenu}>
               Browse Jobs
