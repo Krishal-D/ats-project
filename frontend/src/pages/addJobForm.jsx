@@ -4,6 +4,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/authContext'
 import API_BASE_URL from '../config/api'
+import { useToast } from '../components/Toast'
 
 export function PostJob(props) {
   const selectedJobs = props.selectedJobs
@@ -33,6 +34,7 @@ export function PostJob(props) {
   }
 
   const { user, accessToken, refreshAccessToken } = useAuth()
+  const toast = useToast()
 
   const [error, setError] = React.useState({})
 
@@ -164,7 +166,7 @@ export function PostJob(props) {
     e.preventDefault()
 
     if (user.role !== 'employer') {
-      alert('Only employers can post jobs')
+      toast.error('Only employers can post jobs')
       return
     }
 
@@ -205,12 +207,10 @@ export function PostJob(props) {
       console.log(details)
 
       if (res.ok) {
-        setTimeout(() => {
-          alert('Post successful')
-          setForm(mapJobToForm(selectedJobs))
-          setError({})
-          navigate('/jobList')
-        }, 2000)
+        toast.success(selectedJobs ? 'Job updated successfully' : 'Job posted successfully')
+        setForm(mapJobToForm(selectedJobs))
+        setError({})
+        navigate('/jobList')
       }
     } catch (err) {
       console.error(err)

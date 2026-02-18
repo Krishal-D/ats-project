@@ -9,6 +9,7 @@ export function Apply() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user, accessToken, refreshAccessToken } = useAuth()
+  const toast = useToast()
 
   const [jobData, setJobData] = React.useState({})
   const [form, setForm] = React.useState({
@@ -46,7 +47,7 @@ export function Apply() {
     e.preventDefault()
 
     if (user.role !== 'candidate') {
-      alert('Only candidates can apply for jobs')
+      toast.error('Only candidates can apply for jobs')
       return
     }
 
@@ -84,16 +85,16 @@ export function Apply() {
       }
 
       if (res.ok) {
-        alert('Application submitted successfully!')
+        toast.success('Application submitted successfully!')
         navigate('/candidateDashboard')
       } else {
         const error = await res.json()
         console.error('Submission error:', error)
-        alert('Failed to submit application. Please try again.')
+        toast.error('Failed to submit application. Please try again.')
       }
     } catch (err) {
       console.error('Error submitting application:', err)
-      alert('An error occurred. Please try again.')
+      toast.error('An error occurred. Please try again.')
     }
   }
 
