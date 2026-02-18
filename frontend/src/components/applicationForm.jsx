@@ -89,9 +89,8 @@ export function Apply() {
         toast.success('Application submitted successfully!')
         navigate('/candidateDashboard')
       } else {
-        const error = await res.json()
-        console.error('Submission error:', error)
-        toast.error('Failed to submit application. Please try again.')
+        const data = await res.json()
+        toast.error(data.error || 'Failed to submit application. Please try again.')
       }
     } catch (err) {
       console.error('Error submitting application:', err)

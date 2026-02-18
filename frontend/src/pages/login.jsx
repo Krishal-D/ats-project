@@ -78,18 +78,17 @@ export function Login() {
         login(details.token, details.user)
         navigate('/jobList')
       } else {
-        setError((prev) => ({
-          ...prev,
-          password: details.message || details.error,
-        }))
+        const msg = details.error || 'Login failed'
+        if (res.status === 404) {
+          setError((prev) => ({ ...prev, email: msg, password: '' }))
+        } else {
+          setError((prev) => ({ ...prev, password: msg, email: '' }))
+        }
       }
       return details
     } catch (err) {
       console.error(err)
-      setError((prev) => ({
-        ...prev,
-        password: 'Server error, try again later',
-      }))
+      setError((prev) => ({ ...prev, password: 'Server error, try again later' }))
     }
   }
 

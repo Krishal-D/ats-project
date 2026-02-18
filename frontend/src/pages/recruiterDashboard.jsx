@@ -155,11 +155,12 @@ export function RecruiterDashboard() {
         )
         toast.success(`Status updated to "${newStatus}"`)
       } else {
-        toast.error('Failed to update status')
+        const data = await res.json()
+        toast.error(data.error || 'Failed to update status')
       }
     } catch (error) {
       console.error('Error updating status:', error)
-      toast.error('An error occurred while updating status')
+      toast.error('Server error. Please try again.')
     }
   }
 
@@ -192,11 +193,12 @@ export function RecruiterDashboard() {
         setMyJobs((prev) => prev.filter((job) => job.id !== jobId))
         toast.success('Job deleted successfully')
       } else {
-        toast.error('Failed to delete job')
+        const data = await res.json()
+        toast.error(data.error || 'Failed to delete job')
       }
     } catch (error) {
       console.error('Error deleting job:', error)
-      toast.error('An error occurred while deleting the job')
+      toast.error('Server error. Please try again.')
     }
   }
 

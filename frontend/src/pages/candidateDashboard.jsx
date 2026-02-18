@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/authContext'
 import { JobCard } from '../components/jobCard'
 import { Loading } from '../components/Loading'
+import { useToast } from '../components/Toast'
 import API_BASE_URL from '../config/api'
 
 export function CandidateDashboard() {
@@ -16,6 +17,7 @@ export function CandidateDashboard() {
 
   const navigate = useNavigate()
   const { user, accessToken, refreshAccessToken } = useAuth()
+  const toast = useToast()
 
   const [activeTab, setActiveTab] = React.useState('applications')
   const [applications, setApplications] = React.useState([])
@@ -70,6 +72,7 @@ export function CandidateDashboard() {
         await Promise.all([fetchApplications(), fetchRecommendedJobs()])
       } catch (error) {
         console.error('Error fetching dashboard data:', error)
+        toast.error('Failed to load dashboard data. Please refresh.')
       } finally {
         setLoading(false)
       }

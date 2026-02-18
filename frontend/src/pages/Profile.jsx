@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../auth/authContext'
+import { useToast } from '../components/Toast'
 import styles from '../styles/profile.module.css'
 import {
   HiPencil,
@@ -14,6 +15,7 @@ import API_BASE_URL from '../config/api'
 
 export function Profile() {
   const { user, accessToken, refreshAccessToken, login } = useAuth()
+  const toast = useToast()
   const [isEditing, setIsEditing] = React.useState(false)
   const [loading, setLoading] = React.useState(true)
   const [profile, setProfile] = React.useState(null)
@@ -126,12 +128,15 @@ export function Profile() {
         setProfile(updatedProfile)
         setPreview(null)
         setIsEditing(false)
-
-        // Update user context if needed
         login(accessToken, { ...user, ...updatedProfile })
+        toast.success('Profile updated successfully')
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Failed to update profile')
       }
     } catch (error) {
       console.error('Error updating profile:', error)
+      toast.error('Server error. Please try again.')
     }
   }
 
