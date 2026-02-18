@@ -425,16 +425,6 @@ This project is intentionally scoped as a portfolio piece. Known gaps include:
 
 ---
 
-## Screenshots
-
-> Add screenshots to a `/screenshots` folder in the repo root and they will appear here.
-
-| Job Listings | Recruiter Dashboard | Application Form |
-|---|---|---|
-| ![Job List](./screenshots/jobs.png) | ![Dashboard](./screenshots/dashboard.png) | ![Apply](./screenshots/apply.png) |
-
----
-
 ## Future Improvements
 
 - **Redis-based refresh token storage** — replace DB column with Redis for faster token lookups and built-in TTL expiry

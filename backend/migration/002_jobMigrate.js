@@ -14,7 +14,7 @@ export async function jobMigrate(pool) {
             responsibility TEXT[] Default '{}',
             benefits TEXT[] Default '{}',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            recruiter_id INTEGER REFERENCES users(id) ON DELETE CASCADE
+            recruiter_id INT REFERENCES users(id) ON DELETE CASCADE
             )`)
   } catch (err) {
     console.error('Job migration failed:', err)
