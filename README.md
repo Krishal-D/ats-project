@@ -1,8 +1,22 @@
 # TalentTrack — Applicant Tracking System
 
-A full-stack Applicant Tracking System that connects job seekers with employers. Candidates can browse jobs, submit applications with resumes, and track their application status. Employers can post jobs, review applicants, and manage the hiring pipeline.
+TalentTrack is a production-style Applicant Tracking System built to simulate a real-world hiring platform with secure authentication, role-based access, file uploads, and a relational database backend.
+
+It demonstrates end-to-end full-stack architecture — from database schema design and JWT auth flow to cloud deployment across three separate services.
 
 **Live Demo:** [kd-talenttrack.vercel.app](https://kd-talenttrack.vercel.app)
+
+---
+
+## Why TalentTrack?
+
+Recruitment platforms are often complex and overloaded. TalentTrack was built to explore and implement:
+
+- **Secure authentication** — JWT access + refresh token rotation with HttpOnly cookies
+- **Role-based authorization** — candidates and employers have completely separate capabilities
+- **File upload handling** — resume uploads with MIME type and size validation via Multer
+- **Relational database modeling** — normalised schema with foreign keys, cascading deletes, and joined queries
+- **Production deployment pipeline** — frontend on Vercel, backend on Render, database on Supabase, with environment-specific configuration
 
 ---
 
@@ -235,8 +249,7 @@ node migrate.js up
 Start the server:
 
 ```bash
-npm start          # production
-# or for development (requires nodemon):
+npm start         
 npx nodemon server.js
 ```
 
@@ -388,10 +401,56 @@ VITE_API_BASE_URL=https://ats-project-50pq.onrender.com
 
 ---
 
+## Security Considerations
+
+- **HttpOnly refresh tokens** — refresh token is set as a cookie inaccessible to JavaScript, preventing XSS theft
+- **Access tokens in memory only** — never written to `localStorage` or `sessionStorage`
+- **Password hashing** — bcrypt with 10 salt rounds; plaintext passwords never stored
+- **Role-based route protection** — `authorizeRoles()` middleware enforces access at the API layer, not just the UI
+- **Token rotation** — every refresh issues a new refresh token and invalidates the previous one, preventing replay attacks
+- **Single active session per user** — only one refresh token stored per user; logging in on a new device revokes the previous session
+- **CORS whitelist** — only the production Vercel domain and localhost are permitted origins
+
+---
+
+## Known Limitations
+
+This project is intentionally scoped as a portfolio piece. Known gaps include:
+
+- No email verification on registration
+- No rate limiting on auth endpoints (brute force protection not implemented)
+- Resume files are stored on the server filesystem — ephemeral on Render; cloud storage (S3/Cloudinary) would be needed for production persistence
+- Job listing filtering is client-side only — no server-side pagination or search queries
+- No test suite (unit or integration tests)
+
+---
+
+## Screenshots
+
+> Add screenshots to a `/screenshots` folder in the repo root and they will appear here.
+
+| Job Listings | Recruiter Dashboard | Application Form |
+|---|---|---|
+| ![Job List](./screenshots/jobs.png) | ![Dashboard](./screenshots/dashboard.png) | ![Apply](./screenshots/apply.png) |
+
+---
+
+## Future Improvements
+
+- **Redis-based refresh token storage** — replace DB column with Redis for faster token lookups and built-in TTL expiry
+- **Email verification** — send confirmation email on registration before allowing login
+- **Rate limiting** — `express-rate-limit` on auth endpoints to prevent brute force
+- **Cloud file storage** — migrate resume/profile uploads to AWS S3 or Supabase Storage for persistence across deployments
+- **Server-side pagination and filtering** — move job search/filter logic to SQL queries with `LIMIT`/`OFFSET`
+- **Role-based analytics** — dashboard stats pulled from real DB aggregations, not hardcoded values
+- **Dockerised deployment** — containerise backend for portable, reproducible deployments
+- **CI/CD pipeline** — GitHub Actions to run `format:check` and tests on every push to `main`
+
+---
+
 ## Roles
 
 | Role | Capabilities |
 |------|-------------|
 | `candidate` | Browse jobs, apply, track applications, manage profile |
 | `employer` | Post/edit/delete jobs, view applicants, update application status |
-
