@@ -11,10 +11,7 @@ export const findUserById = async (id) => {
 }
 
 export const createUser = async (name, email, hashedPassword, role = 'candidate') => {
-  const emailExists = await pool.query(
-    'SELECT email FROM users WHERE email = $1',
-    [email]
-  )
+  const emailExists = await pool.query('SELECT email FROM users WHERE email = $1', [email])
 
   if (emailExists.rows.length > 0) {
     throw new Error('Email already exists')
@@ -28,9 +25,7 @@ export const createUser = async (name, email, hashedPassword, role = 'candidate'
 }
 
 export const editUser = async (name, email, hashedPassword, id) => {
-  const oldUserResult = await pool.query('SELECT * FROM users WHERE id=$1', [
-    id,
-  ])
+  const oldUserResult = await pool.query('SELECT * FROM users WHERE id=$1', [id])
   const oldUser = oldUserResult.rows[0]
 
   if (!oldUser) {
@@ -46,9 +41,7 @@ export const editUser = async (name, email, hashedPassword, id) => {
 }
 
 export const removeUser = async (id) => {
-  const result = await pool.query('DELETE FROM users WHERE id=$1 RETURNING *', [
-    id,
-  ])
+  const result = await pool.query('DELETE FROM users WHERE id=$1 RETURNING *', [id])
   return result.rows[0]
 }
 
@@ -58,14 +51,16 @@ export const siginUser = async (email) => {
 }
 
 export const setRefreshToken = async (refreshToken, userId) => {
-  const result = await pool.query(`UPDATE users SET refresh_token =$1 WHERE id =$2`, [refreshToken, userId])
+  const result = await pool.query(`UPDATE users SET refresh_token =$1 WHERE id =$2`, [
+    refreshToken,
+    userId,
+  ])
   return result.rows[0]
 }
 
 export const removeRefreshToken = async (id) => {
   const result = await pool.query('UPDATE users SET refresh_token = NULL WHERE id = $1', [id])
   return result.rows[0]
-
 }
 
 export const checkRefreshToken = async (userId, refreshToken) => {

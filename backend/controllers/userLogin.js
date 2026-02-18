@@ -3,7 +3,6 @@ import { siginUser } from '../models/userModel.js'
 import { setRefreshToken, removeRefreshToken } from '../models/userModel.js'
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../config/auth.js'
 
-
 export const loginUsers = async (req, res, next) => {
   try {
     const { email, password } = req.body
@@ -34,13 +33,12 @@ export const loginUsers = async (req, res, next) => {
 
     res.json({
       token: accessToken,
-      user: { id: users.id, name: users.name, email: users.email, role: users.role }
+      user: { id: users.id, name: users.name, email: users.email, role: users.role },
     })
   } catch (err) {
     next(err)
   }
 }
-
 
 export const logOutUsers = async (req, res, next) => {
   try {
@@ -60,20 +58,17 @@ export const logOutUsers = async (req, res, next) => {
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
     })
 
     res.status(200).json({ message: 'Logged out successfully' })
-
   } catch (err) {
     next(err)
   }
 }
 
-
 export const refreshToken = async (req, res, next) => {
   try {
-
     const token = req.cookies?.refreshToken || req.body?.refreshToken
     if (!token) {
       return res.status(401).json({ error: 'No token provided' })
@@ -93,15 +88,13 @@ export const refreshToken = async (req, res, next) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     })
 
     res.json({
       token: newAccessToken,
-      user: { id: users.id, name: users.name, email: users.email, role: users.role }
+      user: { id: users.id, name: users.name, email: users.email, role: users.role },
     })
-
-
   } catch (err) {
     next(err)
   }

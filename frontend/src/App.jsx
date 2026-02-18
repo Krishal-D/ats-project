@@ -21,86 +21,119 @@ export default function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={
-            <>
-              <Navigation />
-              <Home />
-            </>
-          } />
+          <Route
+            path="/"
+            element={
+              <>
+                <Navigation />
+                <Home />
+              </>
+            }
+          />
 
           <Route path="/login" element={<Login />} />
 
           <Route path="/signup" element={<Register />} />
 
-          <Route path="/jobList" element={
-            <>
-              <Navigation />
-              <JobList />
-            </>
-          } />
+          <Route
+            path="/jobList"
+            element={
+              <>
+                <Navigation />
+                <JobList />
+              </>
+            }
+          />
 
-          <Route path="/addJob" element={
-            <ProtectedRoute>
-              <Navigation />
-              <PostJob />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/addJob"
+            element={
+              <ProtectedRoute>
+                <Navigation />
+                <PostJob />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path='/jobDetails/:id' element={
-            <>
-              <Navigation />
-              <Details />
-            </>
-          } />
+          <Route
+            path="/jobDetails/:id"
+            element={
+              <>
+                <Navigation />
+                <Details />
+              </>
+            }
+          />
 
-          <Route path='/apply/:id' element={
-            <ProtectedRoute>
-              <Navigation />
-              <Apply />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/apply/:id"
+            element={
+              <ProtectedRoute>
+                <Navigation />
+                <Apply />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path='/candidateDashboard' element={
-            <ProtectedRoute>
-              <Navigation />
-              <CandidateDashboard />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/candidateDashboard"
+            element={
+              <ProtectedRoute>
+                <Navigation />
+                <CandidateDashboard />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path='/recruiterDashboard' element={
-            <ProtectedRoute>
-              <Navigation />
-              <RecruiterDashboard />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/recruiterDashboard"
+            element={
+              <ProtectedRoute>
+                <Navigation />
+                <RecruiterDashboard />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path='/profile' element={
-            <ProtectedRoute>
-              <Navigation />
-              <Profile />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Navigation />
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path='/about' element={
-            <>
-              <Navigation />
-              <About />
-            </>
-          } />
+          <Route
+            path="/about"
+            element={
+              <>
+                <Navigation />
+                <About />
+              </>
+            }
+          />
 
-          <Route path='/contact' element={
-            <>
-              <Navigation />
-              <Contact />
-            </>
-          } />
+          <Route
+            path="/contact"
+            element={
+              <>
+                <Navigation />
+                <Contact />
+              </>
+            }
+          />
 
-          <Route path='/privacy' element={
-            <>
-              <Navigation />
-              <Privacy />
-            </>
-          } />
+          <Route
+            path="/privacy"
+            element={
+              <>
+                <Navigation />
+                <Privacy />
+              </>
+            }
+          />
         </Routes>
         <Footer />
       </BrowserRouter>

@@ -5,16 +5,16 @@ import { useNavigate } from 'react-router-dom'
 import '../styles/jobCard.css'
 
 export function JobCard({ details, children }) {
-  if (!details) return null;
-
+  if (!details) return null
 
   const date = new Date(details.created_at)
 
-  const createdTime = date ? date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A";
-  const techStack = Array.isArray(details.tech_stack) ? details.tech_stack : [];
+  const createdTime = date
+    ? date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    : 'N/A'
+  const techStack = Array.isArray(details.tech_stack) ? details.tech_stack : []
 
   const navigate = useNavigate()
-
 
   function viewDetails(id) {
     navigate(`/jobDetails/${id}`)
@@ -66,17 +66,14 @@ export function JobCard({ details, children }) {
           ))}
         </section>
 
-
         <section className="buttonRow">
-          <button className='viewDetails' type='button' onClick={() => viewDetails(details.id)}>
+          <button className="viewDetails" type="button" onClick={() => viewDetails(details.id)}>
             View Details
           </button>
           <button className="applyButton" type="submit" onClick={() => applyJob(details.id)}>
             Apply now
           </button>
         </section>
-
-
       </main>
     </div>
   )

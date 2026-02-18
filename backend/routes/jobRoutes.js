@@ -6,7 +6,7 @@ import {
   registerJobs,
   updateJobs,
   deleteJobs,
-  getJobsByRecruiterId
+  getJobsByRecruiterId,
 } from '../controllers/jobController.js'
 import { authenticate, authorizeRoles } from '../middleware/authMiddleware.js'
 

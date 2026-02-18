@@ -4,7 +4,7 @@ import {
   createJobs,
   editJobs,
   removeJobs,
-  findJobsByRecruiterId
+  findJobsByRecruiterId,
 } from '../models/jobModel.js'
 
 export const getJobs = async (req, res, next) => {
@@ -36,7 +36,6 @@ export const getJobsByRecruiterId = async (req, res, next) => {
   }
 }
 
-
 export const registerJobs = async (req, res, next) => {
   try {
     const {
@@ -49,8 +48,20 @@ export const registerJobs = async (req, res, next) => {
       tech_stack,
       requirements,
       responsibility,
-      benefits
+      benefits,
     } = req.body
+
+    if (
+      !title?.trim() ||
+      !company?.trim() ||
+      !description?.trim() ||
+      !location?.trim() ||
+      !salary?.trim()
+    ) {
+      return res
+        .status(400)
+        .json({ error: 'Title, company, description, location and salary are required' })
+    }
 
     const recruiter_id = req.user.id
 
@@ -86,7 +97,7 @@ export const updateJobs = async (req, res, next) => {
       tech_stack,
       requirements,
       responsibility,
-      benefits
+      benefits,
     } = req.body
     const jobs = await editJobs(
       title,

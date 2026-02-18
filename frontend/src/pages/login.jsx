@@ -13,8 +13,7 @@ export function Login() {
     navigate('/register')
   }
 
-  const { login } = useAuth();
-
+  const { login } = useAuth()
 
   const [form, setForm] = React.useState({
     email: '',
@@ -77,7 +76,7 @@ export function Login() {
 
       if (res.ok) {
         login(details.token, details.user)
-        navigate('/jobList') 
+        navigate('/jobList')
       } else {
         setError((prev) => ({
           ...prev,
@@ -101,9 +100,7 @@ export function Login() {
 
       <section className="formCard">
         <p className={styles.formHeading}>Sign In</p>
-        <p className={styles.formMessage}>
-          Enter your credentials to access your account
-        </p>
+        <p className={styles.formMessage}>Enter your credentials to access your account</p>
 
         <form method="POST" onSubmit={handleSubmit} className="formBody">
           <label htmlFor="email">Email</label>
@@ -149,11 +146,7 @@ export function Login() {
           <p className={styles.forgot}>Forgot your password?</p>
           <hr />
           <p className={styles.account}>Don't have an account?</p>
-          <button
-            type="button"
-            className={styles.createAcc}
-            onClick={handleNavigate}
-          >
+          <button type="button" className={styles.createAcc} onClick={handleNavigate}>
             Create Account
           </button>
         </form>

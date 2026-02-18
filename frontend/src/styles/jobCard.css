@@ -199,7 +199,10 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.08);
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .applyButton {
@@ -232,8 +235,6 @@ body {
   outline: none;
   box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.5);
 }
-
-
 
 /* ===== Job List layout and header (unscoped, used by JobList.jsx) ===== */
 .listContainer {

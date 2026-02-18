@@ -12,9 +12,8 @@ export const findJobById = async (id) => {
 
 export const findJobsByRecruiterId = async (recruiter_id) => {
   const result = await pool.query(`SELECT * FROM jobs WHERE recruiter_id = $1  `, [recruiter_id])
-  return result.rows;
+  return result.rows
 }
-
 
 export const createJobs = async (
   title,
@@ -43,7 +42,7 @@ export const createJobs = async (
       requirements,
       responsibility,
       benefits,
-      recruiter_id
+      recruiter_id,
     ]
   )
   return result.rows[0]
@@ -83,10 +82,6 @@ export const editJobs = async (
 }
 
 export const removeJobs = async (id) => {
-  const result = await pool.query(`DELETE FROM jobs WHERE id=$1 RETURNING *`, [
-    id,
-  ])
+  const result = await pool.query(`DELETE FROM jobs WHERE id=$1 RETURNING *`, [id])
   return result.rows[0]
 }
-
-
