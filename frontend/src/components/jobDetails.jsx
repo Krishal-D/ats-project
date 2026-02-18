@@ -4,6 +4,7 @@ import { BsCurrencyDollar } from 'react-icons/bs'
 import { IoIosTimer } from 'react-icons/io'
 import '../styles/jobDetails.css'
 import { useParams } from "react-router-dom"
+import API_BASE_URL from '../config/api'
 
 export function Details() {
 
@@ -20,7 +21,7 @@ export function Details() {
         try {
             setLoading(true)
             setError(null)
-            const res = await fetch(`http://localhost:5000/api/jobs/${id}`)
+            const res = await fetch(`${API_BASE_URL}/api/jobs/${id}`)
             if (!res.ok) {
                 throw new Error('Job not found')
             }

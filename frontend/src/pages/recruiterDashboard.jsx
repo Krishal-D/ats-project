@@ -5,6 +5,7 @@ import { useAuth } from "../auth/authContext"
 import { JobCard } from "../components/jobCard"
 import { PostJob } from './addJobForm'
 import { Loading } from '../components/Loading'
+import API_BASE_URL from '../config/api'
 
 
 export function RecruiterDashboard() {
@@ -32,7 +33,7 @@ export function RecruiterDashboard() {
 
             setLoading(true)
             try {
-                let res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
+                let res = await fetch(`${API_BASE_URL}/api/jobs/myjobs`, {
                     method: 'GET',
                     credentials: 'include',
                     headers: {
@@ -43,7 +44,7 @@ export function RecruiterDashboard() {
                 if (res.status === 401) {
                     const newToken = await refreshAccessToken()
                     if (newToken) {
-                        res = await fetch(`http://localhost:5000/api/jobs/myjobs`, {
+                        res = await fetch(`${API_BASE_URL}/api/jobs/myjobs`, {
                             method: 'GET',
                             credentials: 'include',
                             headers: {
@@ -80,7 +81,7 @@ export function RecruiterDashboard() {
 
             setLoading(true)
             try {
-                let res = await fetch(`http://localhost:5000/api/applications/mycandidates/${jobId}`, {
+                let res = await fetch(`${API_BASE_URL}/api/applications/mycandidates/${jobId}`, {
                     method: 'GET',
                     credentials: 'include',
                     headers: {
@@ -91,7 +92,7 @@ export function RecruiterDashboard() {
                 if (res.status === 401) {
                     const newToken = await refreshAccessToken()
                     if (newToken) {
-                        res = await fetch(`http://localhost:5000/api/applications/mycandidates/${jobId}`, {
+                        res = await fetch(`${API_BASE_URL}/api/applications/mycandidates/${jobId}`, {
                             method: 'GET',
                             credentials: 'include',
                             headers: {
@@ -121,7 +122,7 @@ export function RecruiterDashboard() {
 
     const handleStatusChange = async (applicationId, newStatus) => {
         try {
-            let res = await fetch(`http://localhost:5000/api/applications/${applicationId}/status`, {
+            let res = await fetch(`${API_BASE_URL}/api/applications/${applicationId}/status`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
@@ -134,7 +135,7 @@ export function RecruiterDashboard() {
             if (res.status === 401) {
                 const newToken = await refreshAccessToken()
                 if (newToken) {
-                    res = await fetch(`http://localhost:5000/api/applications/${applicationId}/status`, {
+                    res = await fetch(`${API_BASE_URL}/api/applications/${applicationId}/status`, {
                         method: 'PUT',
                         credentials: 'include',
                         headers: {
@@ -165,7 +166,7 @@ export function RecruiterDashboard() {
 
     const handleDelete = async (jobId) => {
         try {
-            let res = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
+            let res = await fetch(`${API_BASE_URL}/api/jobs/${jobId}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -179,7 +180,7 @@ export function RecruiterDashboard() {
             if (res.status === 401) {
                 const newToken = await refreshAccessToken()
                 if (newToken) {
-                    res = await fetch(`http://localhost:5000/api/jobs/${jobId}`, {
+                    res = await fetch(`${API_BASE_URL}/api/jobs/${jobId}`, {
                         method: 'DELETE',
                         credentials: 'include',
                         headers: {

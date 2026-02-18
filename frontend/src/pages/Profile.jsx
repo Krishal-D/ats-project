@@ -2,6 +2,7 @@ import React from 'react'
 import { useAuth } from '../auth/authContext'
 import styles from '../styles/profile.module.css'
 import { HiPencil, HiCamera, HiUser, HiMail, HiLocationMarker, HiPhone, HiDocumentText } from 'react-icons/hi'
+import API_BASE_URL from '../config/api'
 
 export function Profile() {
     const { user, accessToken, refreshAccessToken, login } = useAuth()
@@ -25,7 +26,7 @@ export function Profile() {
         if (!user || !accessToken) return
 
         try {
-            let res = await fetch('http://localhost:5000/api/users/profile', {
+            let res = await fetch(`${API_BASE_URL}/api/users/profile`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
@@ -35,7 +36,7 @@ export function Profile() {
             if (res.status === 401) {
                 const newToken = await refreshAccessToken()
                 if (newToken) {
-                    res = await fetch('http://localhost:5000/api/users/profile', {
+                    res = await fetch(`${API_BASE_URL}/api/users/profile`, {
                         headers: {
                             Authorization: `Bearer ${newToken}`
                         },
@@ -89,7 +90,7 @@ export function Profile() {
         }
 
         try {
-            let res = await fetch('http://localhost:5000/api/users/profile', {
+            let res = await fetch(`${API_BASE_URL}/api/users/profile`, {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -101,7 +102,7 @@ export function Profile() {
             if (res.status === 401) {
                 const newToken = await refreshAccessToken()
                 if (newToken) {
-                    res = await fetch('http://localhost:5000/api/users/profile', {
+                    res = await fetch(`${API_BASE_URL}/api/users/profile`, {
                         method: 'PUT',
                         headers: {
                             Authorization: `Bearer ${newToken}`
@@ -158,7 +159,7 @@ export function Profile() {
                     <div className={styles.profilePictureWrapper}>
                         {preview || profile.profile_pic ? (
                             <img 
-                                src={preview || `http://localhost:5000/${profile.profile_pic}`} 
+                                src={preview || `${API_BASE_URL}/${profile.profile_pic}`} 
                                 alt="Profile" 
                                 className={styles.profilePicture}
                             />

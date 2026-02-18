@@ -4,6 +4,7 @@ import { HiArrowLongLeft } from 'react-icons/hi2'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import { useAuth } from '../auth/authContext'
+import API_BASE_URL from '../config/api'
 
 export function Login() {
   const navigate = useNavigate()
@@ -65,7 +66,7 @@ export function Login() {
     e.preventDefault()
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         credentials: 'include',

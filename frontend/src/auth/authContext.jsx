@@ -1,4 +1,5 @@
 import React from "react"
+import API_BASE_URL from '../config/api'
 
 const AuthContext = React.createContext()
 
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await fetch("http://localhost:5000/api/auth/logout", {
+            await fetch(`${API_BASE_URL}/api/auth/logout`, {
                 method: "POST",
                 credentials: "include",
             })
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 
     const refreshAccessToken = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/auth/refresh", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
                 method: "POST",
                 credentials: "include",
             })

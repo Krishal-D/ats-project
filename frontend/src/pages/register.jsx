@@ -2,6 +2,7 @@ import '../styles/form.css'
 import styles from '../styles/login.module.css'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
+import API_BASE_URL from '../config/api'
 
 export function Register() {
     const navigate = useNavigate()
@@ -129,7 +130,7 @@ export function Register() {
         if (Object.keys(submitErrors).length > 0) return
 
         try {
-            const res = await fetch('http://localhost:5000/api/auth/register', {
+            const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

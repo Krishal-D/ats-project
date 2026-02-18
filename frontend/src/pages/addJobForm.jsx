@@ -3,6 +3,7 @@ import styles from "../styles/addJobForm.module.css"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/authContext"
+import API_BASE_URL from '../config/api'
 
 
 export function PostJob(props) {
@@ -166,8 +167,8 @@ export function PostJob(props) {
 
         try {
             let res = await fetch(selectedJobs ?
-                `http://localhost:5000/api/jobs/${selectedJobs.id}` :
-                `http://localhost:5000/api/jobs`,
+                `${API_BASE_URL}/api/jobs/${selectedJobs.id}` :
+                `${API_BASE_URL}/api/jobs`,
                 {
                     method: selectedJobs ? "PUT" : "POST",
                     headers: {
@@ -181,8 +182,8 @@ export function PostJob(props) {
                 const newToken = await refreshAccessToken();
                 if (newToken) {
                     res = await fetch(selectedJobs ?
-                        `http://localhost:5000/api/jobs/${selectedJobs.id}` :
-                        `http://localhost:5000/api/jobs`,
+                        `${API_BASE_URL}/api/jobs/${selectedJobs.id}` :
+                        `${API_BASE_URL}/api/jobs`,
                         {
                             method: selectedJobs ? "PUT" : "POST",
                             headers: {

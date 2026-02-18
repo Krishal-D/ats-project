@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../auth/authContext"
 import { JobCard } from "../components/jobCard"
 import { Loading } from '../components/Loading'
+import API_BASE_URL from '../config/api'
 
 
 export function CandidateDashboard() {
@@ -30,7 +31,7 @@ export function CandidateDashboard() {
             setLoading(true)
             try {
                 const fetchApplications = async () => {
-                    let res = await fetch(`http://localhost:5000/api/applications/myapplication`, {
+                    let res = await fetch(`${API_BASE_URL}/api/applications/myapplication`, {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
@@ -41,7 +42,7 @@ export function CandidateDashboard() {
                     if (res.status === 401) {
                         const newToken = await refreshAccessToken()
                         if (newToken) {
-                            res = await fetch(`http://localhost:5000/api/applications/myapplication`, {
+                            res = await fetch(`${API_BASE_URL}/api/applications/myapplication`, {
                                 method: 'GET',
                                 credentials: 'include',
                                 headers: {
@@ -58,7 +59,7 @@ export function CandidateDashboard() {
                 }
 
                 const fetchRecommendedJobs = async () => {
-                    const res = await fetch('http://localhost:5000/api/jobs', {
+                    const res = await fetch(`${API_BASE_URL}/api/jobs`, {
                         method: 'GET',
                         credentials: 'include'
                     })

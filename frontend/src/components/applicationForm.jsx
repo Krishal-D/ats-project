@@ -3,6 +3,7 @@ import '../styles/form.css'
 import styles from '../styles/addJobForm.module.css'
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/authContext";
+import API_BASE_URL from '../config/api'
 
 
 export function Apply() {
@@ -19,7 +20,7 @@ export function Apply() {
     React.useEffect(() => {
         const fetchJob = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/api/jobs/${id}`)
+                const res = await fetch(`${API_BASE_URL}/api/jobs/${id}`)
                 if (res.ok) {
                     const jobDetails = await res.json()
                     setJobData(Array.isArray(jobDetails) ? jobDetails[0] : jobDetails)
@@ -61,7 +62,7 @@ export function Apply() {
         }
 
         try {
-            let res = await fetch(`http://localhost:5000/api/applications`, {
+            let res = await fetch(`${API_BASE_URL}/api/applications`, {
                 method: "POST",
                 credentials: 'include',
                 headers: {
@@ -73,7 +74,7 @@ export function Apply() {
             if (res.status === 401) {
                 const newToken = await refreshAccessToken()
                 if (newToken) {
-                    res = await fetch(`http://localhost:5000/api/applications`, {
+                    res = await fetch(`${API_BASE_URL}/api/applications`, {
                         method: "POST",
                         credentials: 'include',
                         headers: {

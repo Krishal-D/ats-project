@@ -1,6 +1,7 @@
 import { JobCard } from './jobCard'
 import React from 'react'
 import { Loading } from './Loading'
+import API_BASE_URL from '../config/api'
 
 export function JobList() {
   const [data, setData] = React.useState([])
@@ -15,7 +16,7 @@ export function JobList() {
   const getDetails = async () => {
     try {
       setLoading(true)
-      const res = await fetch('http://localhost:5000/api/jobs')
+      const res = await fetch(`${API_BASE_URL}/api/jobs`)
       const details = await res.json()
       setData(details)
     } catch (error) {
