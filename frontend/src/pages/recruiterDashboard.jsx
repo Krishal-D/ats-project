@@ -12,8 +12,8 @@ export function RecruiterDashboard() {
   const boxes = [
     { id: 1, title: 'Active Jobs' },
     { id: 2, title: 'Total Applications' },
-    { id: 3, title: 'Interview Scheduled' },
-    { id: 4, title: 'Shortlisted' },
+    { id: 3, title: 'Under Review' },
+    { id: 4, title: 'Accepted' },
   ]
 
   const navigate = useNavigate()
@@ -232,8 +232,8 @@ export function RecruiterDashboard() {
                 : box.id === 2
                   ? candidates.length
                   : box.id === 3
-                    ? candidates.filter((app) => app.status === 'reviewed').length
-                    : candidates.filter((app) => app.status === 'shortlisted').length}
+                    ? candidates.filter((app) => app.status === 'reviewing').length
+                    : candidates.filter((app) => app.status === 'accepted').length}
             </p>
           </div>
         ))}
@@ -315,8 +315,8 @@ export function RecruiterDashboard() {
                       className={`statusSelect ${application.status}`}
                     >
                       <option value="pending">Pending</option>
-                      <option value="reviewed">Reviewed</option>
-                      <option value="shortlisted">Shortlisted</option>
+                      <option value="reviewing">Reviewing</option>
+                      <option value="accepted">Accepted</option>
                       <option value="rejected">Rejected</option>
                     </select>
                   </div>

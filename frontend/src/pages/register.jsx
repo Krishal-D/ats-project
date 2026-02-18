@@ -3,9 +3,11 @@ import styles from '../styles/login.module.css'
 import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import API_BASE_URL from '../config/api'
+import { useToast } from '../components/Toast'
 
 export function Register() {
   const navigate = useNavigate()
+  const toast = useToast()
 
   function handleNavigate() {
     navigate('/login')
@@ -137,10 +139,15 @@ export function Register() {
         body: JSON.stringify(values),
       })
       if (res.ok) {
+        toast.success('Account created! Please sign in.')
         navigate('/login')
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Registration failed. Please try again.')
       }
     } catch (err) {
       console.error(err)
+      toast.error('Server error. Please try again later.')
     }
   }
 

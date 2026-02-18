@@ -10,7 +10,7 @@ export function CandidateDashboard() {
   const boxes = [
     { id: 1, title: 'Applications Submitted' },
     { id: 2, title: 'Under Review' },
-    { id: 3, title: 'Shortlisted' },
+    { id: 3, title: 'Accepted' },
     { id: 4, title: 'Saved Jobs' },
   ]
 
@@ -102,9 +102,9 @@ export function CandidateDashboard() {
               {box.id === 1
                 ? applications.length
                 : box.id === 2
-                  ? applications.filter((app) => app.status === 'pending').length
+                  ? applications.filter((app) => app.status === 'reviewing').length
                   : box.id === 3
-                    ? applications.filter((app) => app.status === 'shortlisted').length
+                    ? applications.filter((app) => app.status === 'accepted').length
                     : 0}{' '}
             </p>
           </div>

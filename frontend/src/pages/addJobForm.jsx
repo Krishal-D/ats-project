@@ -175,6 +175,7 @@ export function PostJob(props) {
         selectedJobs ? `${API_BASE_URL}/api/jobs/${selectedJobs.id}` : `${API_BASE_URL}/api/jobs`,
         {
           method: selectedJobs ? 'PUT' : 'POST',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
@@ -204,16 +205,18 @@ export function PostJob(props) {
       }
 
       const details = await res.json()
-      console.log(details)
 
       if (res.ok) {
         toast.success(selectedJobs ? 'Job updated successfully' : 'Job posted successfully')
         setForm(mapJobToForm(selectedJobs))
         setError({})
         navigate('/jobList')
+      } else {
+        toast.error(details.error || 'Failed to save job. Please try again.')
       }
     } catch (err) {
       console.error(err)
+      toast.error('Server error. Please try again later.')
     }
   }
 

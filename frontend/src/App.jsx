@@ -48,7 +48,7 @@ export default function App() {
           <Route
             path="/addJob"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="employer">
                 <Navigation />
                 <PostJob />
               </ProtectedRoute>
@@ -68,7 +68,7 @@ export default function App() {
           <Route
             path="/apply/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="candidate">
                 <Navigation />
                 <Apply />
               </ProtectedRoute>
@@ -78,7 +78,7 @@ export default function App() {
           <Route
             path="/candidateDashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="candidate">
                 <Navigation />
                 <CandidateDashboard />
               </ProtectedRoute>
@@ -88,7 +88,7 @@ export default function App() {
           <Route
             path="/recruiterDashboard"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute role="employer">
                 <Navigation />
                 <RecruiterDashboard />
               </ProtectedRoute>
