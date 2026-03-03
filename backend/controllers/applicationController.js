@@ -1,5 +1,5 @@
 import {
-    findAllApplication,
+    findAllApplicationByRecruiterId,
     findApplicationById,
     findApplicationWithJob,
     createApplication,
@@ -12,7 +12,7 @@ import {
 
 export const getApplication = async (req, res, next) => {
     try {
-        const applications = await findAllApplication()
+        const applications = await findAllApplicationByRecruiterId(req.user.id)
         res.json(applications)
     } catch (err) {
         next(err)
