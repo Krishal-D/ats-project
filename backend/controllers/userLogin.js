@@ -10,13 +10,13 @@ export const loginUsers = async (req, res, next) => {
     const users = await siginUser(email)
 
     if (!users) {
-      return res.status(404).json({ error: 'User not found' })
+      return res.status(401).json({ error: 'Invalid email or password' })
     }
 
     const passwordCheck = await bcrypt.compare(password, users.password)
 
     if (!passwordCheck) {
-      return res.status(401).json({ error: 'Incorrect password' })
+      return res.status(401).json({ error: 'Invalid email or password' })
     }
 
     const accessToken = generateAccessToken(users)
