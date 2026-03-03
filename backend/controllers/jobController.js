@@ -97,6 +97,15 @@ export const updateJobs = async (req, res, next) => {
       return res.status(400).json({ error: 'title, company, description, location and job_type are required' })
     }
 
+    const existingJob = await findJobById(id)
+    if (!existingJob) {
+      return res.status(404).json({ error: 'Job not found' })
+    }
+
+    if (existingJob.recruiter_id !== req.user.id) {
+      return res.status(403).json({ error: 'Not authorized to update this job' })
+    }
+
     const jobs = await editJobs(
       title,
       company,
@@ -119,6 +128,16 @@ export const updateJobs = async (req, res, next) => {
 export const deleteJobs = async (req, res, next) => {
   try {
     const { id } = req.params
+    const existingJob = await findJobById(id)
+
+    if (!existingJob) {
+      return res.status(404).json({ error: 'Job not found' })
+    }
+
+    if (existingJob.recruiter_id !== req.user.id) {
+      return res.status(403).json({ error: 'Not authorized to delete this job' })
+    }
+
     const jobs = await removeJobs(id)
 
     res.json(jobs)
