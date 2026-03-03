@@ -9,6 +9,7 @@ import {
     findApplicationByUserId,
     findUserByJobId,
 } from '../models/applicationModel.js'
+import { findJobById } from '../models/jobModel.js'
 
 export const getApplication = async (req, res, next) => {
     try {
@@ -136,6 +137,16 @@ export const getApplicationByUserId = async (req, res, next) => {
 export const getUserByJobId = async (req, res, next) => {
     try {
         const { job_id } = req.params
+        const job = await findJobById(job_id)
+
+        if (!job) {
+            return res.status(404).json({ error: 'Job not found' })
+        }
+
+        if (job.recruiter_id !== req.user.id) {
+            return res.status(403).json({ error: 'Not authorized to view candidates for this job' })
+        }
+
         const applications = await findUserByJobId(job_id)
 
         res.json(applications)
