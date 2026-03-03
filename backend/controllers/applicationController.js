@@ -83,6 +83,16 @@ export const editApplicationStatus = async (req, res, next) => {
 export const editResume = async (req, res, next) => {
     try {
         const { id } = req.params
+        const existingApplication = await findApplicationById(id)
+
+        if (!existingApplication) {
+            return res.status(404).json({ error: 'Application not found' })
+        }
+
+        if (existingApplication.user_id !== req.user.id) {
+            return res.status(403).json({ error: 'Not authorized to update this application' })
+        }
+
         const resume_path = req.file ? req.file.path : undefined
         const application = await updateResume(resume_path, id)
         res.json(application)
