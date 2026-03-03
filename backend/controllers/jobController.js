@@ -20,6 +20,11 @@ export const getJobsById = async (req, res, next) => {
   try {
     const { id } = req.params
     const jobs = await findJobById(id)
+
+    if (!jobs) {
+      return res.status(404).json({ error: 'Job not found' })
+    }
+
     res.json(jobs)
   } catch (err) {
     next(err)
