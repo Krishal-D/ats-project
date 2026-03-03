@@ -23,6 +23,7 @@ export const findApplicationById = async (id) => {
     `
         SELECT 
         a.id as applicant_id,
+        a.user_id,
         u.name as user_name,
         j.title as job_title,
         u.email as user_email,
