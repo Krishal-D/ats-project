@@ -70,6 +70,10 @@ export const updateUsers = async (req, res, next) => {
     const { id } = req.params
     const { name, email, password } = req.body
 
+    if (req.user.id !== Number(id)) {
+      return res.status(403).json({ error: 'Not authorized to update this user' })
+    }
+
     if (!name || !email) {
       return res.status(400).json({ error: 'Name and email are required' })
     }
