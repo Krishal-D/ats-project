@@ -14,7 +14,9 @@ export const createUser = async (name, email, hashedPassword, role = 'candidate'
   const emailExists = await pool.query('SELECT email FROM users WHERE email = $1', [email])
 
   if (emailExists.rows.length > 0) {
-    throw new Error('Email already exists')
+    const err = new Error('Email already exists')
+    err.statusCode = 400
+    throw err
   }
 
   const result = await pool.query(
