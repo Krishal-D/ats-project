@@ -141,12 +141,16 @@ export const updateMyProfile = async (req, res, next) => {
       return res.status(404).json({ error: 'User not found' })
     }
 
+    const nextBio = bio ?? user.bio
+    const nextLocation = location ?? user.location
+    const nextPhone = phone ?? user.phone
+
     const updatedUser = await updateUserProfile(
       id,
       profile_pic || user.profile_pic,
-      bio || user.bio,
-      location || user.location,
-      phone || user.phone
+      nextBio,
+      nextLocation,
+      nextPhone
     )
 
     res.json({
