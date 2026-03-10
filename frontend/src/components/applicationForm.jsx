@@ -53,9 +53,7 @@ export function Apply() {
     }
 
     const formData = new FormData()
-    formData.append('user_id', user.id)
     formData.append('job_id', id)
-    formData.append('status', 'pending')
     formData.append('cover_letter', form.cover_letter)
     if (form.resume) {
       formData.append('resume', form.resume)

@@ -10,7 +10,7 @@ export function Login() {
   const navigate = useNavigate()
 
   function handleNavigate() {
-    navigate('/register')
+    navigate('/signup')
   }
 
   const { login } = useAuth()
@@ -79,11 +79,7 @@ export function Login() {
         navigate('/jobList')
       } else {
         const msg = details.error || 'Login failed'
-        if (res.status === 404) {
-          setError((prev) => ({ ...prev, email: msg, password: '' }))
-        } else {
-          setError((prev) => ({ ...prev, password: msg, email: '' }))
-        }
+        setError((prev) => ({ ...prev, password: msg, email: '' }))
       }
       return details
     } catch (err) {
