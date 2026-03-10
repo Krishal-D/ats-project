@@ -147,8 +147,8 @@
     padding: 0.5rem 1rem !important;
   }
 
-  .navSignUp:hover {
-    background-color: #0284c7;
+  .navLinks a.navSignUp:hover {
+    background-color: #0284c7 !important;
     color: #ffffff !important;
   }
 }

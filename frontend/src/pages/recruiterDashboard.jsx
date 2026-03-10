@@ -193,6 +193,7 @@ export function RecruiterDashboard() {
 
       if (res.ok) {
         setMyJobs((prev) => prev.filter((job) => job.id !== jobId))
+        if (selectedJobs?.id === jobId) closeEdit()
         toast.success('Job deleted successfully')
       } else {
         const data = await res.json()
@@ -273,8 +274,8 @@ export function RecruiterDashboard() {
               <p>Manage and track your job postings</p>
               {myJobs.map((job) => (
                 <JobCard key={job.id} details={job}>
-                  <button onClick={(e) => handleEdit(job)}>Edit</button>
-                  <button onClick={(e) => handleDelete(job.id)}>Delete</button>
+                  <button className="editButton" onClick={() => handleEdit(job)}>Edit</button>
+                  <button className="deleteButton" onClick={() => handleDelete(job.id)}>Delete</button>
                 </JobCard>
               ))}
             </div>
