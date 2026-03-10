@@ -25,6 +25,11 @@ export const getUsers = async (req, res, next) => {
 export const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params
+
+    if (req.user.id !== Number(id) && req.user.role !== 'admin') {
+      return res.status(403).json({ error: 'Not authorized to view this profile' })
+    }
+
     const users = await findUserById(id)
 
     if (!users) {
@@ -40,9 +45,13 @@ export const getUserById = async (req, res, next) => {
 export const registerUsers = async (req, res, next) => {
   try {
     const { name, email, password, role } = req.body
+
+    const allowedRoles = ['candidate', 'employer']
+    const safeRole = allowedRoles.includes(role) ? role : 'candidate'
+
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
 
-    const users = await createUser(name, email, hashedPassword, role)
+    const users = await createUser(name, email, hashedPassword, safeRole)
 
     const accessToken = generateAccessToken(users)
     const refreshToken = generateRefreshToken(users)

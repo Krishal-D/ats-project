@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { siginUser } from '../models/userModel.js'
+import { signinUser } from '../models/userModel.js'
 import { setRefreshToken, removeRefreshToken } from '../models/userModel.js'
 import { generateAccessToken, generateRefreshToken, verifyRefreshToken } from '../config/auth.js'
 
@@ -7,7 +7,7 @@ export const loginUsers = async (req, res, next) => {
   try {
     const { email, password } = req.body
 
-    const users = await siginUser(email)
+    const users = await signinUser(email)
 
     if (!users) {
       return res.status(401).json({ error: 'Invalid email or password' })
