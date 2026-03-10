@@ -1,5 +1,5 @@
 import { Login } from './pages/login'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Register } from './pages/register'
 import { JobList } from './components/jobList'
 import { PostJob } from './pages/addJobForm'
@@ -134,6 +134,8 @@ export default function App() {
               </>
             }
           />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <Footer />
       </BrowserRouter>

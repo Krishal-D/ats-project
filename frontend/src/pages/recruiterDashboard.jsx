@@ -60,6 +60,7 @@ export function RecruiterDashboard() {
         }
       } catch (error) {
         console.error('Error fetching dashboard data:', error)
+        toast.error('Failed to load your jobs')
       } finally {
         setLoading(false)
       }
@@ -108,6 +109,7 @@ export function RecruiterDashboard() {
         }
       } catch (error) {
         console.error('Error fetching candidates:', error)
+        toast.error('Failed to load candidates')
       } finally {
         setLoading(false)
       }
