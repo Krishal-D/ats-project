@@ -1,22 +1,68 @@
-# React + Vite
+# TalentTrack — Frontend
 
-Currently, two official plugins are available:
+React 19 SPA built with Vite. Connects to the Express backend via a Bearer token auth pattern with automatic refresh token rotation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Stack
 
-## React Compiler
+- React 19 + React Router v7
+- Vite (dev server + production build)
+- Context API for auth state (access token in memory, refresh token in HttpOnly cookie)
+- Custom Toast notification system
+- CSS Modules + global CSS
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Local Dev
 
-## Expanding the ESLint configuration
+```bash
+npm install
+npm run dev        # http://localhost:5173
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Create a `.env` file:
 
-Lightweight Vite + React frontend scaffold. Start building under `src/`.
+```env
+VITE_API_BASE_URL=http://localhost:5000
+```
 
-Next steps:
+## Build
 
-- Create pages under `src/pages` (e.g. `src/pages/Auth/Login.jsx`, `src/pages/Auth/Register.jsx`).
-- Add global styles in `src/styles` and component CSS next to components.
-- Run `npm run dev` and open http://localhost:5173
+```bash
+npm run build      # outputs to dist/
+npm run preview    # preview production build locally
+```
+
+## Structure
+
+```
+src/
+├── auth/
+│   ├── authContext.jsx      # login, logout, refreshAccessToken
+│   └── protectedRoutes.jsx  # role-aware route guard
+├── components/
+│   ├── applicationForm.jsx
+│   ├── jobCard.jsx
+│   ├── jobDetails.jsx
+│   ├── jobList.jsx
+│   ├── Loading.jsx
+│   ├── Navigation.jsx
+│   ├── Footer.jsx
+│   └── Toast.jsx            # toast provider + useToast hook
+├── config/
+│   └── api.js               # VITE_API_BASE_URL export
+├── pages/
+│   ├── Home.jsx
+│   ├── login.jsx
+│   ├── register.jsx
+│   ├── Profile.jsx
+│   ├── addJobForm.jsx
+│   ├── candidateDashboard.jsx
+│   ├── recruiterDashboard.jsx
+│   ├── About.jsx
+│   ├── Contact.jsx
+│   └── Privacy.jsx
+├── styles/                  # CSS Modules + global CSS files
+└── App.jsx                  # Route definitions
+```
+
+## Auth Pattern
+
+Access tokens are kept in React state (never in localStorage). On every protected request the token is sent as `Authorization: Bearer <token>`. On a 401 response the app automatically calls `POST /api/auth/refresh` (the HttpOnly cookie is sent automatically), rotates the token, and retries the original request.

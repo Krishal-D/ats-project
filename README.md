@@ -1,5 +1,10 @@
 # TalentTrack — Applicant Tracking System
 
+![Live](https://img.shields.io/badge/Live-kd--talenttrack.vercel.app-0ea5e9?style=flat-square&logo=vercel)
+![Stack](https://img.shields.io/badge/Stack-React%20%2B%20Express%20%2B%20PostgreSQL-0ea5e9?style=flat-square)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat-square&logo=docker)
+![Auth](https://img.shields.io/badge/Auth-JWT%20Refresh%20Rotation-22c55e?style=flat-square)
+
 TalentTrack is a production-style Applicant Tracking System built to simulate a real-world hiring platform with secure authentication, role-based access, file uploads, and a relational database backend.
 
 It demonstrates end-to-end full-stack architecture — from database schema design and JWT auth flow to cloud deployment across three separate services.
@@ -29,6 +34,7 @@ Recruitment platforms are often complex and overloaded. TalentTrack was built to
 | Database | PostgreSQL (Supabase) |
 | Auth | JWT (access + refresh token rotation) |
 | File Uploads | Multer |
+| Containerisation | Docker, Docker Compose |
 | Frontend Hosting | Vercel |
 | Backend Hosting | Render |
 
@@ -386,6 +392,61 @@ JWT_REFRESH_SECRET=your_production_refresh_secret
 ```
 VITE_API_BASE_URL=https://ats-project-50pq.onrender.com
 ```
+
+---
+
+## Docker
+
+The entire stack can be run locally with a single command using Docker Compose.
+
+### Prerequisites
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+
+### Run with Docker
+
+```bash
+# Build images and start both services in the background
+docker compose up --build -d
+
+# View logs
+docker compose logs -f
+
+# Stop everything
+docker compose down
+```
+
+| Service | Local URL |
+|---------|-----------|
+| Frontend (nginx) | `http://localhost:5173` |
+| Backend (Express) | `http://localhost:5000` |
+
+The backend reads from `backend/.env` automatically. Resume uploads are stored in a named Docker volume (`uploads_data`) so they survive container restarts.
+
+> **Note:** The `VITE_API_BASE_URL` build arg in `docker-compose.yml` defaults to `http://localhost:5000`. Change it if you're targeting a remote backend.
+
+---
+
+## Security
+
+The following security measures are implemented across the stack:
+
+| Concern | Implementation |
+|---|---|
+| Password storage | bcrypt with 10 salt rounds |
+| Token security | Short-lived access tokens (15m) + rotated refresh tokens in HttpOnly cookies |
+| Brute force | express-rate-limit — 10 requests / 15 min on `/login` and `/register` |
+| Role escalation | `role` on signup is validated server-side; only `candidate` and `employer` accepted |
+| IDOR — users | `PUT /users/:id` and `GET /users/:id` enforce own-ID check |
+| IDOR — jobs | `PUT`/`DELETE /jobs/:id` verify `recruiter_id === req.user.id` |
+| IDOR — applications | `PUT /:id/status` and `GET /:id` verify the application belongs to the recruiter's job |
+| Candidate ownership | Resume update and application delete verify `user_id === req.user.id` |
+| Scope leak | Employer application list (`GET /applications`) is scoped to own jobs only |
+| Login enumeration | User-not-found and wrong-password both return identical 401 response |
+| Duplicate email | Returns 400, not 500 |
+| HTTP headers | helmet sets secure default headers |
+| CORS | Strict allowlist — only known frontend origins |
+| Input validation | Name, email, and password validated before bcrypt on registration |
 
 ---
 
