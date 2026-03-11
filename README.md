@@ -479,7 +479,6 @@ The following security measures are implemented across the stack:
 This project is intentionally scoped as a portfolio piece. Known gaps include:
 
 - No email verification on registration
-- No rate limiting on auth endpoints (brute force protection not implemented)
 - Resume files are stored on the server filesystem — ephemeral on Render; cloud storage (S3/Cloudinary) would be needed for production persistence
 - Job listing filtering is client-side only — no server-side pagination or search queries
 - No test suite (unit or integration tests)
