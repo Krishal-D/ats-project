@@ -23,12 +23,17 @@ export const getApplication = async (req, res, next) => {
 export const getApplicationById = async (req, res, next) => {
     try {
         const { id } = req.params
-        const application = await findApplicationById(id)
+        const applicationWithJob = await findApplicationWithJob(id)
 
-        if (!application) {
+        if (!applicationWithJob) {
             return res.status(404).json({ error: 'Application not found' })
         }
 
+        if (applicationWithJob.recruiter_id !== req.user.id) {
+            return res.status(403).json({ error: 'Not authorized to view this application' })
+        }
+
+        const application = await findApplicationById(id)
         res.json(application)
     } catch (err) {
         next(err)
